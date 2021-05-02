@@ -162,6 +162,14 @@
                             <a href="{{url('/admin/coupons')}}">
                                 <i class="fas fa-tags"></i>Coupon</a>
                         </li>
+                        <li class="@yield('size_active')">
+                            <a href="{{url('/admin/attributes/size')}}">
+                                <i class="fas fa-credit-card"></i>Size</a>
+                        </li>
+                        <li class="@yield('color_active')">
+                            <a href="{{url('/admin/attributes/color')}}">
+                                <i class="fas fa-paint-brush"></i>Color</a>
+                        </li>
                         <!-- <li class="has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-tachometer-alt"></i>Category</a>
@@ -365,6 +373,7 @@
                        
                        @section('content')
                        @show()
+                       
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="copyright">

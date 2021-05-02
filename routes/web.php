@@ -2,7 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SizeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CategoryController;
 
@@ -42,6 +44,22 @@ Route::group(['middleware'=>['LoginIsMust']], function(){
     Route::get('/admin/coupons/edit/{id}',[CouponController::class,'manage_coupon']);
     Route::get('/admin/coupons/delete/{id}',[CouponController::class,'delete_coupon']);
     Route::get('/admin/coupons/status/{status}/{id}',[CouponController::class,'status_coupon']);
+
+    #Size
+    Route::get('/admin/attributes/size',[SizeController::class,'index']);
+    Route::get('/admin/attributes/size/new',[SizeController::class,'manage_size']);
+    Route::post('/admin/attributes/size/manage_size',[SizeController::class,'manage_size_process']);
+    Route::get('/admin/attributes/size/edit/{id}',[SizeController::class,'manage_size']);
+    Route::get('/admin/attributes/size/delete/{id}',[SizeController::class,'delete_size']);
+    Route::get('/admin/attributes/size/status/{status}/{id}',[SizeController::class,'status_size']);
+
+     #Color
+     Route::get('/admin/attributes/color',[ColorController::class,'index']);
+     Route::get('/admin/attributes/color/new',[ColorController::class,'manage_color']);
+     Route::post('/admin/attributes/color/manage_color',[ColorController::class,'manage_color_process']);
+     Route::get('/admin/attributes/color/edit/{id}',[ColorController::class,'manage_color']);
+     Route::get('/admin/attributes/color/delete/{id}',[ColorController::class,'delete_color']);
+     Route::get('/admin/attributes/color/status/{status}/{id}',[ColorController::class,'status_color']);
 
 
 });
