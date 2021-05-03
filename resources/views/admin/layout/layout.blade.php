@@ -154,6 +154,10 @@
                             <a href="{{url('/admin/dashboard')}}">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         </li>
+                        <li class="@yield('product_active')">
+                            <a href="{{url('/admin/products')}}">
+                                <i class="fas fa-tachometer-alt"></i>Products</a>
+                        </li>
                         <li class="@yield('category_active')">
                             <a href="{{url('/admin/category')}}">
                                 <i class="fas fa-list"></i>Category</a>

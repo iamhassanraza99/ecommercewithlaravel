@@ -6,6 +6,7 @@ use App\Http\Controllers\SizeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -53,13 +54,21 @@ Route::group(['middleware'=>['LoginIsMust']], function(){
     Route::get('/admin/attributes/size/delete/{id}',[SizeController::class,'delete_size']);
     Route::get('/admin/attributes/size/status/{status}/{id}',[SizeController::class,'status_size']);
 
-     #Color
-     Route::get('/admin/attributes/color',[ColorController::class,'index']);
-     Route::get('/admin/attributes/color/new',[ColorController::class,'manage_color']);
-     Route::post('/admin/attributes/color/manage_color',[ColorController::class,'manage_color_process']);
-     Route::get('/admin/attributes/color/edit/{id}',[ColorController::class,'manage_color']);
-     Route::get('/admin/attributes/color/delete/{id}',[ColorController::class,'delete_color']);
-     Route::get('/admin/attributes/color/status/{status}/{id}',[ColorController::class,'status_color']);
+    #Color
+    Route::get('/admin/attributes/color',[ColorController::class,'index']);
+    Route::get('/admin/attributes/color/new',[ColorController::class,'manage_color']);
+    Route::post('/admin/attributes/color/manage_color',[ColorController::class,'manage_color_process']);
+    Route::get('/admin/attributes/color/edit/{id}',[ColorController::class,'manage_color']);
+    Route::get('/admin/attributes/color/delete/{id}',[ColorController::class,'delete_color']);
+    Route::get('/admin/attributes/color/status/{status}/{id}',[ColorController::class,'status_color']);
+
+    #Products
+    Route::get('/admin/products',[ProductController::class,'index']);
+    Route::get('/admin/product/new',[ProductController::class,'manage_product']);
+    Route::post('/admin/product/manage_product',[ProductController::class,'manage_product_process']);
+    Route::get('/admin/product/edit/{id}',[ProductController::class,'manage_product']);
+    Route::get('/admin/product/delete/{id}',[ProductController::class,'delete_product']);
+    Route::get('/admin/product/status/{status}/{id}',[ProductController::class,'status_product']);
 
 
 });
