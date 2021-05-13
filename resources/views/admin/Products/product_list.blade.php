@@ -29,7 +29,7 @@
                         <td>{{$product->id}}</td>
                         <td>{{$product->product_name}}</td>
                         <td>{{$product->product_slug}}</td>
-                        <td><img src="{{asset('storage/media/'.$product->product_image)}}" width="100px" alt="image"></td>
+                        <td><img src="{{asset('storage/media/products/'.$product->product_image)}}" width="100px" alt="image"></td>
                         <td width="5%">
                             <div class="table-data-feature">
                                 <a href="{{url('/admin/product/edit/'.$product->id)}}">

@@ -69,6 +69,9 @@ Route::group(['middleware'=>['LoginIsMust']], function(){
     Route::get('/admin/product/edit/{id}',[ProductController::class,'manage_product']);
     Route::get('/admin/product/delete/{id}',[ProductController::class,'delete_product']);
     Route::get('/admin/product/status/{status}/{id}',[ProductController::class,'status_product']);
+    Route::get('/admin/product/product_attr_delete/{product_attr_id}/{product_id}',[ProductController::class,'product_attr_delete']);
+
+    
 
 
 });
