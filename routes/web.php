@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ProductController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\CategoryController;
 */
 
 Route::get('/admin/login',[AdminController::class,'index']);
+Route::get('/',[AdminController::class,'index']);
 // Route::get('/admin/encpassword',[AdminController::class,'encpassword']);
 Route::post('/admin/login/auth',[AdminController::class,'auth']);
 
@@ -54,6 +56,14 @@ Route::group(['middleware'=>['LoginIsMust']], function(){
     Route::get('/admin/attributes/size/delete/{id}',[SizeController::class,'delete_size']);
     Route::get('/admin/attributes/size/status/{status}/{id}',[SizeController::class,'status_size']);
 
+    #Brand
+    Route::get('/admin/attributes/brands',[BrandController::class,'index']);
+    Route::get('/admin/attributes/brands/new',[BrandController::class,'manage_brand']);
+    Route::post('/admin/attributes/brands/manage_brand',[BrandController::class,'manage_brand_process']);
+    Route::get('/admin/attributes/brands/edit/{id}',[BrandController::class,'manage_brand']);
+    Route::get('/admin/attributes/brands/delete/{id}',[BrandController::class,'delete_brand']);
+    Route::get('/admin/attributes/brands/status/{status}/{id}',[BrandController::class,'status_brand']);
+
     #Color
     Route::get('/admin/attributes/color',[ColorController::class,'index']);
     Route::get('/admin/attributes/color/new',[ColorController::class,'manage_color']);
@@ -70,6 +80,7 @@ Route::group(['middleware'=>['LoginIsMust']], function(){
     Route::get('/admin/product/delete/{id}',[ProductController::class,'delete_product']);
     Route::get('/admin/product/status/{status}/{id}',[ProductController::class,'status_product']);
     Route::get('/admin/product/product_attr_delete/{product_attr_id}/{product_id}',[ProductController::class,'product_attr_delete']);
+    Route::get('/admin/product/product_images_delete/{product_attr_id}/{product_id}',[ProductController::class,'product_images_delete']);
 
     
 

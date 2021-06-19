@@ -67,9 +67,17 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label for="product_brand" class="control-label mb-1">Product Brand</label>
-                                <input id="product_brand" name="product_brand" type="text" value="{{$product_brand}}"
-                                    class="form-control" aria-required="true" aria-invalid="false" required>
+                                <label for="brand_id" class="control-label mb-1">Product Brand</label>
+                                <select name="brand_id" id="brand_id" class="form-control">
+                                    @foreach($brands as $brand)
+                                    @if($brand_id == $brand->id)
+                                    <option selected value="{{$brand->id}}">
+                                        @else
+                                    <option value="{{$brand->id}}">
+                                    @endif
+                                        {{$brand->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-4">
                                 <label for="product_model" class="control-label mb-1">Product Model</label>
@@ -125,7 +133,71 @@
                 </div>
             </div>
             <!-- END CARD -->
+            <!-- Product Images START -->
+            <h2 class="title-2 mb-2">Product Images</h2>
 
+            @if(Session::has('product-image-msg'))
+            <div class="alert alert-success">{{ session('product-image-msg') }}</div>
+            @endif
+
+            <!-- START CARD -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="row" id="product_images_box">
+                            @php
+                            $count = 1;
+                            @endphp
+
+                            @foreach($productsImages as $key => $val)
+                            @php
+                            $ProductImageArr = (array) $val;
+                            $previous_count = $count;
+                            @endphp
+                            <input id="piid" name="piid[]" type="hidden" value="{{$ProductImageArr['id']}}"
+                                class="form-control">
+                            <div class="col-md-4 product_images_{{$count++}}">
+                                <label for="product_images" class="control-label mb-1">Image</label>
+                                <input id="product_images" name="product_images[]" type="file" class="form-control"
+                                    aria-required="true" aria-invalid="false">
+                                @if($ProductImageArr['images'] != '')
+                                <div class="p-2">
+                                    <a href="{{asset('storage/media/products/'.$ProductImageArr['images'])}}"
+                                        target="_blank" rel="noopener noreferrer">
+                                        <img src="{{asset('storage/media/products/'.$ProductImageArr['images'])}}"
+                                            width="100px" alt="image">
+                                    </a>
+                                </div>
+                                @endif
+                                @error('image_attr.*')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            @if($count == 2)
+                            <div class="col-md-2">
+                                <label for="btn_add" class="control-label mb-5 mt-2"></label>
+                                <button type="button" class="btn btn-outline-success" onclick='add_more_image()'>
+                                    <i class="fa fa-plus"></i>&nbsp; Add</button>
+                            </div>
+                            @else
+                            <div class="col-md-2">
+                                <a
+                                    href="{{url('/admin/product/product_images_delete/'.$ProductImageArr['id'])}}/{{$product_id}}">
+                                    <label for="btn_remove" class="control-label mb-5 mt-2"></label>
+                                    <button type="button" class="btn btn-outline-danger"
+                                        onclick='remove_image("{{$previous_count}}")'>
+                                        <i class="fa fa-minus"></i>&nbsp; Remove</button>
+                                </a>
+                            </div>
+                            @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END CARD -->
+            <!-- Product Images END -->
+            <!-- Product attribute START -->
             <h2 class="title-2 mb-2">Product Attributes</h2>
 
             @if(Session::has('product-attr-msg'))
@@ -192,7 +264,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <label for="qty" class="control-label mb-1">Quntatity</label>
+                                    <label for="qty" class="control-label mb-1">Quantity</label>
                                     <input id="qty" name="qty[]" type="text" value="{{$arr['qty']}}"
                                         class="form-control" aria-required="true" aria-invalid="false" required>
                                 </div>
@@ -243,6 +315,7 @@
                     @endif
                 </button>
             </div>
+            <!-- Product attribute END -->
         </form>
     </div>
 </div>
@@ -251,7 +324,8 @@ var count = 1;
 
 function add_more() {
     count++;
-    var html = '<input id="paid" name="paid[]" type="hidden" class="form-control"><div class="card" id="product_attr_' +
+    var html =
+        '<input id="paid" name="paid[]" type="hidden" value="" class="form-control"><input id="paid" name="paid[]" type="hidden" class="form-control"><div class="card" id="product_attr_' +
         count + '"><div class="card-body"><div class="form-group"><div class="row">';
     html +=
         '<div class="col-md-2"><label for="sku" class="control-label mb-1">SKU</label><input id="sku" name="sku[]" type="text" value="" class="form-control"aria-required="true" aria-invalid="false"></div>';
@@ -277,6 +351,24 @@ function add_more() {
 
 function remove_attr(count) {
     $('#product_attr_' + count).remove();
+}
+var count_images = 1;
+
+function add_more_image() {
+    count_images++;
+    var html =
+        '<input id="piid" name="piid[]" type="hidden" value="" class="form-control"><div class="col-md-4 product_images_' +
+        count_images +
+        '"><label for="product_images" class="control-label mb-1 ">Image</label><input id="product_images" name="product_images[]" type="file" value="" class="form-control"aria-required="true" aria-invalid="false"></div>';
+    html +=
+        '<div class="col-md-2 product_images_' + count_images +
+        '"><label for="product_images" class="control-label mb-5 mt-2 "></label><button type="button" class="btn btn-outline-danger" onclick="remove_image(' +
+        count_images + ')"><i class="fa fa-minus"></i>&nbsp; Remove</button></div>';
+    $('#product_images_box').append(html);
+}
+
+function remove_image(count_images) {
+    $('.product_images_' + count_images).remove();
 }
 </script>
 @endsection

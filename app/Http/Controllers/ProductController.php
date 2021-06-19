@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\size;
+use App\Models\Brand;
 use App\Models\color;
 use App\Models\product;
 use App\Models\Category;
@@ -23,15 +24,17 @@ class ProductController extends Controller
         $Arr['category'] = Category::where(['status'=>'1'])->get();
         $Arr['colors'] = color::where(['status'=>'1'])->get();
         $Arr['sizes'] = size::where(['status'=>'1'])->get();
-        
+        $Arr['brands'] = Brand::where(['status'=>'1'])->get();
+        // PRODUCT EDIT
         if($id > 0){
             $res = Product::where('id',$id)->get();
             $Arr['product_id'] = $res[0]->id;
             $Arr['category_id'] = $res[0]->category_id;
+            $Arr['brand_id'] = $res[0]->brand_id;
             $Arr['product_name'] = $res[0]->product_name;
             $Arr['product_slug'] = $res[0]->product_slug;
             $Arr['product_image'] = $res[0]->image;
-            $Arr['product_brand'] = $res[0]->product_brand;
+            // $Arr['product_brand'] = $res[0]->product_brand;
             $Arr['product_model'] = $res[0]->product_model;
             $Arr['short_desc'] = $res[0]->short_desc;
             $Arr['long_desc'] = $res[0]->long_desc;
@@ -42,19 +45,27 @@ class ProductController extends Controller
             $Arr['status'] = $res[0]->status;
 
             $Arr['productsAttr'] = DB::table('products_attr')->where(['product_id'=>$id])->get();
+            $productsImages = DB::table('product_images')->where(['product_id'=>$id])->get();
+            if(!isset($productsImages[0])){
+                $Arr['productsImages'][0]['id'] = '';
+                $Arr['productsImages'][0]['images'] = '';
+            }
+            else{
+                $Arr['productsImages'] = $productsImages;
+            }
             // echo "<pre>";
-            // print_r($Arr['productsAttr']);
+            // print_r($Arr);
             // die();
             return view('admin/products/product_manage',$Arr);
         }
-       
+    //    NEW PRODUCT 
         else{
             $Arr['category_id'] = '';
             $Arr['product_id'] = 0;
             $Arr['product_name'] = '';
             $Arr['product_slug'] = '';
             $Arr['product_image'] = '';
-            $Arr['product_brand'] = '';
+            $Arr['brand_id'] = '';
             $Arr['product_model'] = '';
             $Arr['short_desc'] = '';
             $Arr['long_desc'] = '';
@@ -73,8 +84,11 @@ class ProductController extends Controller
             $Arr['productsAttr'][0]['qty'] = '';
             $Arr['productsAttr'][0]['size_id'] = '';
             $Arr['productsAttr'][0]['color_id'] = '';
+
+            $Arr['productsImages'][0]['id'] = '';
+            $Arr['productsImages'][0]['images'] = '';
         // echo "<pre>";
-        // print_r($Arr['productsAttr']);
+        // print_r($Arr);
         // die();
         return view('admin/products/product_manage',$Arr);
         }
@@ -84,6 +98,9 @@ class ProductController extends Controller
     ## FOR INSERT AND UPDATE PRODUCTS
     public function manage_product_process(Request $request)
     {
+        // echo "<pre>";
+        // print_r($request->post());
+        // die();
         $id = $request->input('product_id');
         if($id == 0){
             $product_image_validation = "required|mimes:jpg,jpeg,png";
@@ -120,7 +137,7 @@ class ProductController extends Controller
         $res->category_id = $request->input('category_id');
         $res->product_name = $request->input('product_name');
         $res->product_slug = $request->input('product_slug');
-        $res->product_brand = $request->input('product_brand');
+        $res->brand_id = $request->input('brand_id');
         $res->product_model = $request->input('product_model');
         $res->short_desc = $request->input('short_desc');
         $res->long_desc = $request->input('long_desc');
@@ -187,6 +204,35 @@ class ProductController extends Controller
        
         // Product Attributes End
         $request->session()->flash("product-msg",$msg);
+
+        // PRODUCT IMAGES START
+        $piidArr = $request->input('piid');
+        $imagesArr = $request->file('product_images');
+        foreach($piidArr as $key=>$val){
+            $ProductsImagesrArr['product_id'] = $pid; 
+            if($request->hasfile("product_images.$key")){
+                $ext[$key] = $imagesArr[$key]->extension();
+                $image_name[$key] = time().'.'.$ext[$key];
+                $file[$key] = $imagesArr[$key]->storeAs('/public/media/products',$image_name[$key]);
+                $ProductsImagesrArr['images'] = $image_name[$key];
+
+            }
+            else{
+                ## if we are editing/updating product then the image will not be added
+                if($piidArr[$key]==''){
+                    $ProductsImagesrArr['images'] = "No Image"; 
+                }
+            }
+           
+            if($piidArr[$key]==''){
+                DB::table('product_images')->insert($ProductsImagesrArr);
+            }
+            else{
+                DB::table('product_images')->where(['id'=>$piidArr[$key]])->update($ProductsImagesrArr);
+            }
+        }
+        // PRODUCT IMAGES END
+        
         return redirect('admin/products');
     }
     function delete_product(Request $request,$id){
@@ -204,6 +250,11 @@ class ProductController extends Controller
     function product_attr_delete(Request $request,$product_attr_id,$product_id){
         $res =DB::table('products_attr')->where(['id'=>$product_attr_id])->delete();
         $request->session()->flash("product-attr-msg","Product Attribute Deleted Successfully");
+        return redirect('admin/product/edit/'.$product_id);
+    }
+    function product_images_delete(Request $request,$product_attr_id,$product_id){
+        $res =DB::table('product_images')->where(['id'=>$product_attr_id])->delete();
+        $request->session()->flash("product-image-msg","Product Image Deleted Successfully");
         return redirect('admin/product/edit/'.$product_id);
     }
 }
