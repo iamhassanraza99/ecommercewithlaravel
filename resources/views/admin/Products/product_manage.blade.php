@@ -12,6 +12,7 @@
 {{$product_image_class='required'}}
 @endif
 @section('content')
+<script src="{{@asset('admin_assets/ckeditor5/ckeditor.js')}}"></script>
 <div class="row">
     <div class="col-md-12">
         <h1 class="title-2 mb-1">
@@ -74,7 +75,7 @@
                                     <option selected value="{{$brand->id}}">
                                         @else
                                     <option value="{{$brand->id}}">
-                                    @endif
+                                        @endif
                                         {{$brand->name}}</option>
                                     @endforeach
                                 </select>
@@ -88,12 +89,12 @@
                     </div>
                     <div class="form-group">
                         <label for="short_desc" class="control-label mb-1">Short Description</label>
-                        <textarea name="short_desc" id="short_desc" value="{{$short_desc}}" cols="30" rows="5"
+                        <textarea name="short_desc" id="short_desc" value="{{$short_desc}}" cols="30" rows="10"
                             class="form-control">{{$short_desc}}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="long_desc" class="control-label mb-1">Long Description</label>
-                        <textarea name="long_desc" id="long_desc" value="{{$long_desc}}" cols="30" rows="10"
+                        <textarea name="long_desc" id="long_desc" value="{{$long_desc}}" cols="30" rows="20"
                             class="form-control">{{$long_desc}}</textarea>
                     </div>
                     <div class="form-group">
@@ -129,6 +130,80 @@
                         @error('warranty')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="delivery_time" class="control-label mb-1">Delivery Time</label>
+                                <input id="delivery_time" name="delivery_time" type="text" value="{{$delivery_time}}"
+                                    class="form-control" aria-required="true" aria-invalid="false">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="tax" class="control-label mb-1">Tax</label>
+                                <select name="brand_id" id="brand_id" class="form-control">
+                                    @foreach($Tax as $tax)
+                                    @if($tax_id == $tax->id)
+                                    <option selected value="{{$tax->id}}">
+                                        @else
+                                    <option value="{{$tax->id}}">
+                                        @endif
+                                        {{$tax->tax_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="is_promo" class="control-label mb-1">Promotional Product</label>
+                                <select name="is_promo" id="is_promo" class="form-control">
+                                    @if($is_promo == 1)
+                                    <option selected value="1">Yes</option>
+                                    <option value="0">No</option>
+                                    @else
+                                    <option value="1">Yes</option>
+                                    <option selected value="0">No</option>
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-4">
+                            <label for="is_featured" class="control-label mb-1">Featured Product</label>
+                                <select name="is_featured" id="is_featured" class="form-control">
+                                    @if($is_featured == 1)
+                                    <option selected value="1">Yes</option>
+                                    <option value="0">No</option>
+                                    @else
+                                    <option value="1">Yes</option>
+                                    <option selected value="0">No</option>
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                            <label for="is_discounted" class="control-label mb-1">Discount</label>
+                                <select name="is_discounted" id="is_discounted" class="form-control">
+                                    @if($is_discounted == 1)
+                                    <option selected value="1">Yes</option>
+                                    <option value="0">No</option>
+                                    @else
+                                    <option value="1">Yes</option>
+                                    <option selected value="0">No</option>
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                            <label for="is_trending" class="control-label mb-1">Trending Product</label>
+                                <select name="is_trending" id="is_trending" class="form-control">
+                                    @if($is_trending == 1)
+                                    <option selected value="1">Yes</option>
+                                    <option value="0">No</option>
+                                    @else
+                                    <option value="1">Yes</option>
+                                    <option selected value="0">No</option>
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -198,6 +273,7 @@
             <!-- END CARD -->
             <!-- Product Images END -->
             <!-- Product attribute START -->
+            
             <h2 class="title-2 mb-2">Product Attributes</h2>
 
             @if(Session::has('product-attr-msg'))
@@ -370,5 +446,8 @@ function add_more_image() {
 function remove_image(count_images) {
     $('.product_images_' + count_images).remove();
 }
+ClassicEditor.create(document.querySelector('#short_desc'));
+ClassicEditor.create(document.querySelector('#long_desc'));
+ClassicEditor.create(document.querySelector('#technical_specifications'));
 </script>
 @endsection

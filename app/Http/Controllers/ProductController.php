@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tax;
 use App\Models\size;
 use App\Models\Brand;
 use App\Models\color;
@@ -42,6 +43,12 @@ class ProductController extends Controller
             $Arr['technical_specifications'] = $res[0]->technical_specifications;
             $Arr['uses'] = $res[0]->uses;
             $Arr['warranty'] = $res[0]->warranty;
+            $Arr['delivery_time'] = $res[0]->delivery_time;
+            $Arr['tax_id'] = $res[0]->tax_id;
+            $Arr['is_promo'] = $res[0]->is_promo;
+            $Arr['is_featured'] = $res[0]->is_featured;
+            $Arr['is_discounted'] = $res[0]->is_discounted;
+            $Arr['is_trending'] = $res[0]->is_trending;
             $Arr['status'] = $res[0]->status;
 
             $Arr['productsAttr'] = DB::table('products_attr')->where(['product_id'=>$id])->get();
@@ -53,8 +60,9 @@ class ProductController extends Controller
             else{
                 $Arr['productsImages'] = $productsImages;
             }
+            $Arr['Tax'] = Tax::where(['status'=>'1'])->get();
             // echo "<pre>";
-            // print_r($Arr);
+            // print_r($Arr['productsAttr']);
             // die();
             return view('admin/products/product_manage',$Arr);
         }
@@ -73,6 +81,12 @@ class ProductController extends Controller
             $Arr['technical_specifications'] = '';
             $Arr['uses'] = '';
             $Arr['warranty'] = '';
+            $Arr['delivery_time'] = '';
+            $Arr['tax_id'] = '';
+            $Arr['is_promo'] = '';
+            $Arr['is_featured'] = '';
+            $Arr['is_discounted'] = '';
+            $Arr['is_trending'] = '';
             $Arr['status'] = '';
         
             $Arr['productsAttr'][0]['id'] = '';
@@ -145,6 +159,12 @@ class ProductController extends Controller
         $res->technical_specifications = $request->input('technical_specifications');
         $res->uses = $request->input('uses');
         $res->warranty = $request->input('warranty');
+        $res->delivery_time = $request->input('delivery_time');
+        $res->tax_id = $request->input('tax_id');
+        $res->is_promo = $request->input('is_promo');
+        $res->is_featured = $request->input('is_featured');
+        $res->is_discounted = $request->input('is_discounted');
+        $res->is_trending = $request->input('is_trending');
         $res->status = 1;
         $res->save();
 
@@ -159,51 +179,57 @@ class ProductController extends Controller
         $qtyArr = $request->input('qty');
         $imageArr = $request->file('image_attr');
 
-        // SKU Unique Validation
-        foreach($skuArr as $key=>$val){
-            $check = DB::table('products_attr')
-            ->where('sku',$skuArr[$key])
-            ->where('id','!=',$paidArr[$key])->get();
-            if(isset($check[0])){
-                $request->session()->flash('sku-error',$skuArr[$key].' SKU already exists');
-                return redirect(request()->headers->get('referer'));
-            }
-        }
-       
-        foreach($skuArr as $key=>$val){
-           
-            $ProductsAttrArr['product_id'] = $pid; 
-            $ProductsAttrArr['sku'] = $skuArr[$key]; 
-            $ProductsAttrArr['maximum_retail_price'] = $mrpArr[$key]; 
-            $ProductsAttrArr['price'] = $priceArr[$key]; 
-            $ProductsAttrArr['size_id'] = $sizeArr[$key]; 
-            $ProductsAttrArr['color_id'] = $colorArr[$key]; 
-            $ProductsAttrArr['qty'] = $qtyArr[$key]; 
-
-            if($request->hasfile("image_attr.$key")){
-                $ext[$key] = $imageArr[$key]->extension();
-                $image_name[$key] = time().'.'.$ext[$key];
-                $file[$key] = $imageArr[$key]->storeAs('/public/media/products/attr',$image_name[$key]);
-                $ProductsAttrArr['image'] = $image_name[$key];
-
-            }
-            else{
-                ## if we are editing/updating product then the image will not be added
-                if($paidArr[$key]==''){
-                    $ProductsAttrArr['image'] = "No Image"; 
+        if($skuArr != NULL)
+        {
+                // SKU Unique Validation
+            foreach($skuArr as $key=>$val){
+                $check = DB::table('products_attr')
+                ->where('sku',$skuArr[$key])
+                ->where('id','!=',$paidArr[$key])->get();
+                if(isset($check[0])){
+                    $request->session()->flash('sku-error',$skuArr[$key].' SKU already exists');
+                    return redirect(request()->headers->get('referer'));
                 }
             }
-           
-            if($paidArr[$key]==''){
-                DB::table('products_attr')->insert($ProductsAttrArr);
+        
+            foreach($skuArr as $key=>$val){
+            
+                $ProductsAttrArr['product_id'] = $pid; 
+                $ProductsAttrArr['sku'] = $skuArr[$key]; 
+                $ProductsAttrArr['maximum_retail_price'] = $mrpArr[$key]; 
+                $ProductsAttrArr['price'] = $priceArr[$key]; 
+                $ProductsAttrArr['size_id'] = $sizeArr[$key]; 
+                $ProductsAttrArr['color_id'] = $colorArr[$key]; 
+                $ProductsAttrArr['qty'] = $qtyArr[$key]; 
+
+                if($request->hasfile("image_attr.$key")){
+                    $ext[$key] = $imageArr[$key]->extension();
+                    $image_name[$key] = time().'.'.$ext[$key];
+                    $file[$key] = $imageArr[$key]->storeAs('/public/media/products/attr',$image_name[$key]);
+                    $ProductsAttrArr['image'] = $image_name[$key];
+
+                }
+                else{
+                    ## if we are editing/updating product then the image will not be added
+                    if($paidArr[$key]==''){
+                        $ProductsAttrArr['image'] = "No Image"; 
+                    }
+                }
+            
+                if($paidArr[$key]==''){
+                    DB::table('products_attr')->insert($ProductsAttrArr);
+                }
+                else{
+                    DB::table('products_attr')->where(['id'=>$paidArr[$key]])->update($ProductsAttrArr);
+                }
             }
-            else{
-                DB::table('products_attr')->where(['id'=>$paidArr[$key]])->update($ProductsAttrArr);
-            }
+            // Product Attributes End
+            $request->session()->flash("product-msg",$msg);
+
         }
+        
        
-        // Product Attributes End
-        $request->session()->flash("product-msg",$msg);
+       
 
         // PRODUCT IMAGES START
         $piidArr = $request->input('piid');

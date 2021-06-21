@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaxController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
@@ -71,6 +72,14 @@ Route::group(['middleware'=>['LoginIsMust']], function(){
     Route::get('/admin/attributes/color/edit/{id}',[ColorController::class,'manage_color']);
     Route::get('/admin/attributes/color/delete/{id}',[ColorController::class,'delete_color']);
     Route::get('/admin/attributes/color/status/{status}/{id}',[ColorController::class,'status_color']);
+
+    #Tax
+    Route::get('/admin/attributes/tax',[TaxController::class,'index']);
+    Route::get('/admin/attributes/tax/new',[TaxController::class,'manage_tax']);
+    Route::post('/admin/attributes/tax/manage_tax',[TaxController::class,'manage_tax_process']);
+    Route::get('/admin/attributes/tax/edit/{id}',[TaxController::class,'manage_tax']);
+    Route::get('/admin/attributes/tax/delete/{id}',[TaxController::class,'delete_tax']);
+    Route::get('/admin/attributes/tax/status/{status}/{id}',[TaxController::class,'status_tax']);
 
     #Products
     Route::get('/admin/products',[ProductController::class,'index']);

@@ -22,12 +22,18 @@ class CouponController extends Controller
             $Arr['coupon_title'] = $res[0]->coupon_title;
             $Arr['coupon_code'] = $res[0]->coupon_code;
             $Arr['coupon_value'] = $res[0]->coupon_value;
+            $Arr['type'] = $res[0]->type;
+            $Arr['min_order_amt'] = $res[0]->min_order_amt;
+            $Arr['is_one_time'] = $res[0]->is_one_time;
             return view('admin/coupon/coupon_manage',$Arr);
         }
         $Arr['coupon_id'] = 0;
         $Arr['coupon_title'] = '';
         $Arr['coupon_code'] = '';
         $Arr['coupon_value'] = '';
+        $Arr['type'] = '';
+        $Arr['min_order_amt'] = '';
+        $Arr['is_one_time'] = '';
         return view('admin/coupon/coupon_manage',$Arr);
     }
     public function manage_coupon_process(Request $request)
@@ -52,6 +58,9 @@ class CouponController extends Controller
         $res->coupon_title = $request->input('coupon_title');
         $res->coupon_code = $request->input('coupon_code');
         $res->coupon_value = $request->input('coupon_value');
+        $res->type = $request->input('type');
+        $res->min_order_amt = $request->input('min_order_amt');
+        $res->is_one_time = $request->input('is_one_time');
         $res->status = 1;
         $res->save();
         $request->session()->flash("coupon-msg",$msg);

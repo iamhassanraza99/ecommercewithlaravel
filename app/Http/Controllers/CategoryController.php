@@ -39,15 +39,26 @@ class CategoryController extends Controller
             $Arr['category_id'] = $res[0]->id;
             $Arr['category_name'] = $res[0]->category_name;
             $Arr['category_slug'] = $res[0]->category_slug;
+            $Arr['parent_category_id'] = $res[0]->parent_category_id;
+            $Arr['category_image'] = $res[0]->category_image;
+
+            $Arr['category'] = Category::where(['status'=>'1'])->where('id','!=',$id)->get();
             return view('admin/category/categories_manage',$Arr);
         }
         $Arr['category_id'] = 0;
         $Arr['category_name'] = '';
         $Arr['category_slug'] = '';
+        $Arr['parent_category_id'] = '';
+        $Arr['category_image'] = '';
+
+        $Arr['category'] = Category::where(['status'=>'1'])->get();
         return view('admin/category/categories_manage',$Arr);
     }
     public function manage_category_process(Request $request)
     {
+        // echo "<pre>";
+        // print_r($request->post());
+        // die();
         $id = $request->input('category_id');
         $request->validate([
             'category_name'=>'required',
@@ -64,8 +75,16 @@ class CategoryController extends Controller
             $res = Category::find($id);
             $msg = "Category Updated Successfully";
         }
+        if($request->hasfile('category_image')){
+            $image = $request->file('category_image');
+            $ext = $image->extension();
+            $image_name = time().'.'.$ext;
+            $file = $image->storeAs('/public/media/category',$image_name);
+            $res->category_image = $image_name;
+        }
         $res->category_name = $request->input('category_name');
         $res->category_slug = $request->input('category_slug');
+        $res->parent_category_id = $request->input('parent_category_id');
         $res->status = 1;
         $res->save();
         $request->session()->flash("cat-msg",$msg);
