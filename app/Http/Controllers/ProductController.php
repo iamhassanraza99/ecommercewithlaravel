@@ -205,7 +205,7 @@ class ProductController extends Controller
             }
         
             foreach($skuArr as $key=>$val){
-            
+                $ProductsAttrArr = []; 
                 $ProductsAttrArr['product_id'] = $pid; 
                 $ProductsAttrArr['sku'] = $skuArr[$key]; 
                 $ProductsAttrArr['maximum_retail_price'] = $mrpArr[$key]; 

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\SizeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ColorController;
@@ -80,6 +81,11 @@ Route::group(['middleware'=>['LoginIsMust']], function(){
     Route::get('/admin/attributes/tax/edit/{id}',[TaxController::class,'manage_tax']);
     Route::get('/admin/attributes/tax/delete/{id}',[TaxController::class,'delete_tax']);
     Route::get('/admin/attributes/tax/status/{status}/{id}',[TaxController::class,'status_tax']);
+
+    #Users
+    Route::get('/admin/users',[UserController::class,'index']);
+    Route::get('/admin/users/users_detail/{id}',[UserController::class,'users_detail']);
+    Route::get('/admin/users/status/{status}/{id}',[UserController::class,'status_user']);
 
     #Products
     Route::get('/admin/products',[ProductController::class,'index']);

@@ -13,7 +13,7 @@
     <link href="{{@asset('admin_assets/vendor/font-awesome-4.7/css/font-awesome.min.css')}}" rel="stylesheet" media="all">
     <link href="{{@asset('admin_assets/vendor/font-awesome-5/css/fontawesome-all.min.css')}}" rel="stylesheet" media="all">
     <link href="{{@asset('admin_assets/vendor/mdi-font/css/material-design-iconic-font.min.css')}}" rel="stylesheet" media="all">
-
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <!-- Bootstrap CSS-->
     <link href="{{@asset('admin_assets/vendor/bootstrap-4.1/bootstrap.min.css')}}" rel="stylesheet" media="all">
     <!-- Main CSS-->
@@ -174,13 +174,17 @@
                             <a href="{{url('/admin/attributes/color')}}">
                                 <i class="fas fa-paint-brush"></i>Color</a>
                         </li>
+                        <li class="@yield('users_active')">
+                            <a href="{{url('/admin/users')}}">
+                                <i class="fas fa-users-cog"></i>Users</a>
+                        </li>
                         <li class="@yield('brand_active')">
                             <a href="{{url('/admin/attributes/brands')}}">
-                                <i class="fas fa-tags"></i>Brands</a>
+                                <i class="fas fa-bold"></i>Brands</a>
                         </li>
                         <li class="@yield('tax_active')">
                             <a href="{{url('/admin/attributes/tax')}}">
-                                <i class="fas fa-tags"></i>Tax</a>
+                                <i class="fas fa-percentage"></i>Tax</a>
                         </li>
                         <!-- <li class="has-sub">
                             <a class="js-arrow" href="#">
