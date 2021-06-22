@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Tax;
-use App\Models\size;
-use App\Models\Brand;
-use App\Models\color;
-use App\Models\product;
-use App\Models\Category;
+use App\Http\Controllers\Controller;
+
+use App\Models\Admin\Tax;
+use App\Models\Admin\size;
+use App\Models\Admin\Brand;
+use App\Models\Admin\color;
+use App\Models\Admin\product;
+use App\Models\Admin\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;

@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Brand;
+use App\Http\Controllers\Controller;
+
+use App\Models\Admin\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -23,11 +25,13 @@ class BrandController extends Controller
             $Arr['brand_id'] = $res[0]->id;
             $Arr['brand'] = $res[0]->name;
             $Arr['brand_image'] = $res[0]->image;
+            $Arr['showOnFrontend'] = $res[0]->showOnFrontend;
             return view('admin/attributes/brands/brands_manage',$Arr);
         }
         $Arr['brand_id'] = 0;
         $Arr['brand'] = '';
         $Arr['brand_image'] = '';
+        $Arr['showOnFrontend'] = '';
         return view('admin/attributes/brands/brands_manage',$Arr);
     }
     public function manage_brand_process(Request $request)
@@ -66,6 +70,12 @@ class BrandController extends Controller
         $res->image = $image_name;
        }
         $res->name = $request->input('brand_name');
+
+        $res->showOnFrontend = 0;
+        if($request->input('showOnFrontend') != NULL){
+            $res->showOnFrontend = 1;
+        }
+
         $res->status = 1;
         $res->save();
         $request->session()->flash("brand-msg",$msg);

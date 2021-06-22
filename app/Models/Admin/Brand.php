@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\Brand;
 
-class product extends Model
+class Brand extends Model
 {
     use HasFactory;
 }

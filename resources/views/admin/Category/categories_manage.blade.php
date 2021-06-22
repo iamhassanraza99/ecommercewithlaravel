@@ -34,6 +34,7 @@
                             <div class="col-md-4">
                                 <label for="parent_category_id" class="control-label mb-1">Parent Category</label>
                                 <select name="parent_category_id" id="parent_category_id" class="form-control">
+                                    <option value="0">Select Category</option>
                                     @foreach($category as $cat)
                                     @if($parent_category_id == $cat->id)
                                     <option selected value="{{$cat->id}}">
@@ -61,6 +62,7 @@
                         @error('category_image')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
+                        @if($category_image != '')
                         <div class="p-2">
                             <a href="{{asset('storage/media/category/'.$category_image)}}" target="_blank"
                                 rel="noopener noreferrer">
@@ -68,6 +70,15 @@
                                     alt="image">
                             </a>
                         </div>
+                        @endif
+                    </div>
+                    <div class="form-group">
+                        <label for="showOnFrontend" class="control-label mb-1">Display on Frontend</label>
+                        @if($showOnFrontend != NULL)
+                        <input id="showOnFrontend" name="showOnFrontend" type="checkbox" checked class="ml-2">
+                        @else
+                        <input id="showOnFrontend" name="showOnFrontend" type="checkbox" class="ml-2">
+                        @endif
                     </div>
                     <div>
                         <input type="hidden" name="category_id" value="{{$category_id}}">

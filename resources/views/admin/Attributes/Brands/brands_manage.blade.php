@@ -19,7 +19,8 @@
         <a href="{{url('/admin/attributes/brands')}}" class="btn btn-primary mb-3">Back</a>
         <div class="card">
             <div class="card-body">
-                <form action="{{url('/admin/attributes/brands/manage_brand')}}" method="post" enctype="multipart/form-data">
+                <form action="{{url('/admin/attributes/brands/manage_brand')}}" method="post"
+                    enctype="multipart/form-data">
                     @csrf()
                     <div class="form-group">
                         <label for="brand_name" class="control-label mb-1">Brand</label>
@@ -29,35 +30,42 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="form-group">
                         <label for="brand_image" class="control-label mb-1">Image</label>
-                        <input id="brand_image" name="brand_image" type="file" class="form-control"
-                                    aria-required="true" aria-invalid="false">
+                        <input id="brand_image" name="brand_image" type="file" class="form-control" aria-required="true"
+                            aria-invalid="false">
                         @error('brand_image')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                         @if($brand_image != '')
                         <div class="p-2">
-                            <a href="{{asset('storage/media/brands/'.$brand_image)}}"
-                                target="_blank" rel="noopener noreferrer">
-                                <img src="{{asset('storage/media/brands/'.$brand_image)}}"
-                                    width="100px" alt="image">
+                            <a href="{{asset('storage/media/brands/'.$brand_image)}}" target="_blank"
+                                rel="noopener noreferrer">
+                                <img src="{{asset('storage/media/brands/'.$brand_image)}}" width="100px" alt="image">
                             </a>
                         </div>
                         @endif
-                        <div>
-                            <br>
-                            <div>
-                                <input type="hidden" name="brand_id" value="{{$brand_id}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="showOnFrontend" class="control-label mb-1">Display on Frontend</label>
+                        @if($showOnFrontend != NULL)
+                        <input id="showOnFrontend" name="showOnFrontend" type="checkbox" checked class="ml-2">
+                        @else
+                        <input id="showOnFrontend" name="showOnFrontend" type="checkbox" class="ml-2">
+                        @endif
+                    </div>
+                    <div>
+                        <input type="hidden" name="brand_id" value="{{$brand_id}}">
 
-                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
-                                    @if($brand_id > 0)
-                                    Update
-                                    @else
-                                    Submit
-                                    @endif
-                                </button>
-                            </div>
+                        <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                            @if($brand_id > 0)
+                            Update
+                            @else
+                            Submit
+                            @endif
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>

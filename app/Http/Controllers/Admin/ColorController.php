@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\color;
+use App\Http\Controllers\Controller;
+
+use App\Models\Admin\color;
 use Illuminate\Http\Request;
 
 class ColorController extends Controller

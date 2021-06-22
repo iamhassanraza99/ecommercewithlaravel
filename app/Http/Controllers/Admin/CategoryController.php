@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
+use App\Http\Controllers\Controller;
+
+use App\Models\Admin\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -43,7 +45,8 @@ class CategoryController extends Controller
             $Arr['category_slug'] = $res[0]->category_slug;
             $Arr['parent_category_id'] = $res[0]->parent_category_id;
             $Arr['category_image'] = $res[0]->category_image;
-
+            $Arr['showOnFrontend'] = $res[0]->showOnFrontend;
+            
             $Arr['category'] = Category::where(['status'=>'1'])->where('id','!=',$id)->get();
             return view('admin/category/categories_manage',$Arr);
         }
@@ -52,6 +55,7 @@ class CategoryController extends Controller
         $Arr['category_slug'] = '';
         $Arr['parent_category_id'] = '';
         $Arr['category_image'] = '';
+        $Arr['showOnFrontend'] = '';
 
         $Arr['category'] = Category::where(['status'=>'1'])->get();
         return view('admin/category/categories_manage',$Arr);
@@ -95,6 +99,11 @@ class CategoryController extends Controller
         $res->category_name = $request->input('category_name');
         $res->category_slug = $request->input('category_slug');
         $res->parent_category_id = $request->input('parent_category_id');
+        
+        $res->showOnFrontend = 0;
+        if($request->input('showOnFrontend') != NULL){
+            $res->showOnFrontend = 1;
+        }
         $res->status = 1;
         $res->save();
         $request->session()->flash("cat-msg",$msg);
