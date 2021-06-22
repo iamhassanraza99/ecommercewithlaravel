@@ -51,6 +51,16 @@
                         @error('product_image')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
+
+                        @if($product_image != '')
+                        <div class="p-2">
+                            <a href="{{asset('storage/media/products/'.$product_image)}}"
+                                target="_blank" rel="noopener noreferrer">
+                                <img src="{{asset('storage/media/products/'.$product_image)}}"
+                                    width="100px" alt="image">
+                            </a>
+                        </div>
+                        @endif
                     </div>
                     <div class="form-group">
                         <div class="row">
@@ -110,10 +120,7 @@
                             Specifications</label>
                         <input id="technical_specifications" name="technical_specifications" type="text"
                             value="{{$technical_specifications}}" class="form-control" aria-required="true"
-                            aria-invalid="false" required>
-                        @error('technical_specifications')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                            aria-invalid="false">
                     </div>
                     <div class="form-group">
                         <label for="uses" class="control-label mb-1">Uses</label>
@@ -168,7 +175,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                            <label for="is_featured" class="control-label mb-1">Featured Product</label>
+                                <label for="is_featured" class="control-label mb-1">Featured Product</label>
                                 <select name="is_featured" id="is_featured" class="form-control">
                                     @if($is_featured == 1)
                                     <option selected value="1">Yes</option>
@@ -180,7 +187,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                            <label for="is_discounted" class="control-label mb-1">Discount</label>
+                                <label for="is_discounted" class="control-label mb-1">Discount</label>
                                 <select name="is_discounted" id="is_discounted" class="form-control">
                                     @if($is_discounted == 1)
                                     <option selected value="1">Yes</option>
@@ -192,7 +199,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                            <label for="is_trending" class="control-label mb-1">Trending Product</label>
+                                <label for="is_trending" class="control-label mb-1">Trending Product</label>
                                 <select name="is_trending" id="is_trending" class="form-control">
                                     @if($is_trending == 1)
                                     <option selected value="1">Yes</option>
@@ -273,7 +280,7 @@
             <!-- END CARD -->
             <!-- Product Images END -->
             <!-- Product attribute START -->
-            
+
             <h2 class="title-2 mb-2">Product Attributes</h2>
 
             @if(Session::has('product-attr-msg'))

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class BrandController extends Controller
 {
@@ -20,10 +22,12 @@ class BrandController extends Controller
             $res = Brand::where('id',$id)->get();
             $Arr['brand_id'] = $res[0]->id;
             $Arr['brand'] = $res[0]->name;
+            $Arr['brand_image'] = $res[0]->image;
             return view('admin/attributes/brands/brands_manage',$Arr);
         }
         $Arr['brand_id'] = 0;
         $Arr['brand'] = '';
+        $Arr['brand_image'] = '';
         return view('admin/attributes/brands/brands_manage',$Arr);
     }
     public function manage_brand_process(Request $request)
@@ -47,6 +51,14 @@ class BrandController extends Controller
         }
        
        if($request->hasfile('brand_image')){
+        if($id > 0){
+            $imageArr = DB::table('brands')->where(['id'=>$id])->get();
+            // dd($imageArr);
+            if(Storage::exists('/public/media/brands/'.$imageArr[0]->image))
+            {
+                Storage::delete('/public/media/brands/'.$imageArr[0]->image);
+            }
+        }
         $image = $request->file('brand_image');
         $ext = $image->extension();
         $image_name = time().'.'.$ext;

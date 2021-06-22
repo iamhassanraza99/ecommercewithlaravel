@@ -36,6 +36,15 @@
                         @error('brand_image')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
+                        @if($brand_image != '')
+                        <div class="p-2">
+                            <a href="{{asset('storage/media/brands/'.$brand_image)}}"
+                                target="_blank" rel="noopener noreferrer">
+                                <img src="{{asset('storage/media/brands/'.$brand_image)}}"
+                                    width="100px" alt="image">
+                            </a>
+                        </div>
+                        @endif
                         <div>
                             <br>
                             <div>

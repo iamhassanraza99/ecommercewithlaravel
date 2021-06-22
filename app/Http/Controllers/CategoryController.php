@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -76,6 +78,14 @@ class CategoryController extends Controller
             $msg = "Category Updated Successfully";
         }
         if($request->hasfile('category_image')){
+            if($id > 0){
+                $imageArr = DB::table('categories')->where(['id'=>$id])->get();
+                // dd($imageArr);
+                if(Storage::exists('/public/media/category/'.$imageArr[0]->category_image))
+                {
+                    Storage::delete('/public/media/category/'.$imageArr[0]->category_image);
+                }
+            }
             $image = $request->file('category_image');
             $ext = $image->extension();
             $image_name = time().'.'.$ext;
