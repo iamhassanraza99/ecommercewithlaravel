@@ -93,7 +93,7 @@
                             <div class="col-md-4">
                                 <label for="product_model" class="control-label mb-1">Product Model</label>
                                 <input id="product_model" name="product_model" type="text" value="{{$product_model}}"
-                                    class="form-control" aria-required="true" aria-invalid="false" required>
+                                    class="form-control" aria-required="true" aria-invalid="false">
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                     <div class="form-group">
                         <label for="keywords" class="control-label mb-1">Keywords</label>
                         <input id="keywords" name="keywords" type="text" value="{{$keywords}}" class="form-control"
-                            aria-required="true" aria-invalid="false" required>
+                            aria-required="true" aria-invalid="false">
                         @error('keywords')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -125,7 +125,7 @@
                     <div class="form-group">
                         <label for="uses" class="control-label mb-1">Uses</label>
                         <input id="uses" name="uses" type="text" value="{{$uses}}" class="form-control"
-                            aria-required="true" aria-invalid="false" required>
+                            aria-required="true" aria-invalid="false">
                         @error('uses')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -133,7 +133,7 @@
                     <div class="form-group">
                         <label for="warranty" class="control-label mb-1">Warranty</label>
                         <input id="warranty" name="warranty" type="text" value="{{$warranty}}" class="form-control"
-                            aria-required="true" aria-invalid="false" required>
+                            aria-required="true" aria-invalid="false">
                         @error('warranty')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -143,7 +143,7 @@
                             <div class="col-md-4">
                                 <label for="delivery_time" class="control-label mb-1">Delivery Time</label>
                                 <input id="delivery_time" name="delivery_time" type="text" value="{{$delivery_time}}"
-                                    class="form-control" aria-required="true" aria-invalid="false">
+                                    class="form-control" aria-required="true" aria-invalid="false" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="tax" class="control-label mb-1">Tax</label>
@@ -451,7 +451,7 @@ function add_more_image() {
 }
 
 function remove_image(count_images) {
-    $('.product_images_' + count_images).remove();
+    $('.product_images_' +count_images).remove();
 }
 ClassicEditor.create(document.querySelector('#short_desc'));
 ClassicEditor.create(document.querySelector('#long_desc'));

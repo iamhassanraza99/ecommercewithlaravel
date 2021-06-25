@@ -8,9 +8,12 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Front\FrontController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\ProductController;
+
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\HomeBannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +25,11 @@ use App\Http\Controllers\Admin\CategoryController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/',[FrontController::class,'index']);
+Route::get('/product/{product_id}/{product_slug}',[FrontController::class,'product_detail']);
 
 Route::get('/admin/login',[AdminController::class,'index']);
-Route::get('/',[AdminController::class,'index']);
+
 // Route::get('/admin/encpassword',[AdminController::class,'encpassword']);
 Route::post('/admin/login/auth',[AdminController::class,'auth']);
 
@@ -65,6 +70,14 @@ Route::group(['middleware'=>['LoginIsMust']], function(){
     Route::get('/admin/attributes/brands/edit/{id}',[BrandController::class,'manage_brand']);
     Route::get('/admin/attributes/brands/delete/{id}',[BrandController::class,'delete_brand']);
     Route::get('/admin/attributes/brands/status/{status}/{id}',[BrandController::class,'status_brand']);
+
+    #Home Banner
+    Route::get('/admin/home_banners',[HomeBannerController::class,'index']);
+    Route::get('/admin/home_banners/new',[HomeBannerController::class,'manage_home_banners']);
+    Route::post('/admin/home_banners/manage_home_banners',[HomeBannerController::class,'manage_home_banners_process']);
+    Route::get('/admin/home_banners/edit/{id}',[HomeBannerController::class,'manage_home_banners']);
+    Route::get('/admin/home_banners/delete/{id}',[HomeBannerController::class,'delete_home_banner']);
+    Route::get('/admin/home_banners/status/{status}/{id}',[HomeBannerController::class,'status_home_banner']);
 
     #Color
     Route::get('/admin/attributes/color',[ColorController::class,'index']);

@@ -191,7 +191,7 @@ class ProductController extends Controller
         $sizeArr = $request->input('size');
         $colorArr = $request->input('color');
         $qtyArr = $request->input('qty');
-        $imageArr = $request->file('image_attr');
+        // $imageAttrArr = $request->file('image_attr');
 
         if($skuArr != NULL)
         {
@@ -207,7 +207,7 @@ class ProductController extends Controller
             }
         
             foreach($skuArr as $key=>$val){
-                $ProductsAttrArr = []; 
+                // $ProductsAttrArr = []; 
                 $ProductsAttrArr['product_id'] = $pid; 
                 $ProductsAttrArr['sku'] = $skuArr[$key]; 
                 $ProductsAttrArr['maximum_retail_price'] = $mrpArr[$key]; 
@@ -216,26 +216,27 @@ class ProductController extends Controller
                 $ProductsAttrArr['color_id'] = $colorArr[$key]; 
                 $ProductsAttrArr['qty'] = $qtyArr[$key]; 
 
-                if($request->hasfile("image_attr.$key")){
-                    if($paidArr[$key]!=''){
-                        $imageArray = DB::table('products_attr')->where(['id'=>$paidArr[$key]])->get();
-                        if(Storage::exists('/public/media/products/attr/'.$imageArray[0]->image))
-                        {
-                            Storage::delete('/public/media/products/attr/'.$imageArray[0]->image);
-                        }
-                    }
-                    $ext[$key] = $imageArr[$key]->extension();
-                    $image_name[$key] = time().'.'.$ext[$key];
-                    $file[$key] = $imageArr[$key]->storeAs('/public/media/products/attr',$image_name[$key]);
-                    $ProductsAttrArr['image'] = $image_name[$key];
-
-                }
-                else{
-                    ## if we are editing/updating product then the image will not be added
-                    if($paidArr[$key]==''){
-                        $ProductsAttrArr['image'] = "No Image"; 
-                    }
-                }
+                // if($request->hasfile("image_attr.$key")){
+                //     if($paidArr[$key]!=''){
+                        
+                //         $imageArray = DB::table('products_attr')->where(['id'=>$paidArr[$key]])->get();
+                //         if(Storage::exists('/public/media/products/attr/'.$imageArray[0]->image))
+                //         {
+                //             Storage::delete('/public/media/products/attr/'.$imageArray[0]->image);
+                //         }
+                //     }
+                //     $random = rand('111111111','999999999');
+                //     $ext[$key] = $imageAttrArr[$key]->extension();
+                //     $image_name[$key] = $random.'.'.$ext[$key];
+                //     $imageArr[$key]->storeAs('/public/media/products/attr',$image_name[$key]);
+                //     $ProductsAttrArr['image'] = $image_name[$key];
+                // }
+                // else{
+                //     ## if we are editing/updating product then the image will not be added
+                //     if($paidArr[$key]==''){
+                //         $ProductsAttrArr['image'] = "No Image"; 
+                //     }
+                // }
             
                 if($paidArr[$key]==''){
                     DB::table('products_attr')->insert($ProductsAttrArr);
@@ -252,22 +253,24 @@ class ProductController extends Controller
         // PRODUCT IMAGES START
         $piidArr = $request->input('piid');
         $imagesArr = $request->file('product_images');
+      
         foreach($piidArr as $key=>$val){
             $ProductsImagesrArr['product_id'] = $pid; 
             if($request->hasfile("product_images.$key")){
 
                 if($piidArr[$key] != ''){
                     $imageArr = DB::table('product_images')->where(['id'=>$piidArr[$key]])->get();
-                    // dd($imageArr);
                     if(Storage::exists('/public/media/products/'.$imageArr[0]->images))
                     {
                         Storage::delete('/public/media/products/'.$imageArr[0]->images);
                     }
                 }
                 
+                $random = rand('1111111111','999999999');
                 $ext[$key] = $imagesArr[$key]->extension();
-                $image_name[$key] = time().'.'.$ext[$key];
-                $file[$key] = $imagesArr[$key]->storeAs('/public/media/products',$image_name[$key]);
+               
+                $image_name[$key] = $random .'.'.$ext[$key];
+                $imagesArr[$key]->storeAs('/public/media/products',$image_name[$key]);
                 $ProductsImagesrArr['images'] = $image_name[$key];
 
             }
@@ -277,14 +280,14 @@ class ProductController extends Controller
                     $ProductsImagesrArr['images'] = "No Image"; 
                 }
             }
-           
-            if($piidArr[$key]==''){
+            if($piidArr[$key] == ''){
                 DB::table('product_images')->insert($ProductsImagesrArr);
             }
             else{
                 DB::table('product_images')->where(['id'=>$piidArr[$key]])->update($ProductsImagesrArr);
             }
         }
+        // die();
         // PRODUCT IMAGES END
         
         return redirect('admin/products');
@@ -314,8 +317,9 @@ class ProductController extends Controller
         return redirect('admin/product/edit/'.$product_id);
     }
     function product_images_delete(Request $request,$product_attr_id,$product_id){
-        
+       
         $imageArr = DB::table('product_images')->where(['id'=>$product_attr_id])->get();
+        
         if(Storage::exists('/public/media/products/'.$imageArr[0]->images))
         {
             Storage::delete('/public/media/products/'.$imageArr[0]->images);

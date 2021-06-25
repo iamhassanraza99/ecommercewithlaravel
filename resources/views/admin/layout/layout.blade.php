@@ -10,10 +10,14 @@
 
     <!-- Fontfaces CSS-->
     <link href="{{@asset('admin_assets/css/font-face.css')}}" rel="stylesheet" media="all">
-    <link href="{{@asset('admin_assets/vendor/font-awesome-4.7/css/font-awesome.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{@asset('admin_assets/vendor/font-awesome-5/css/fontawesome-all.min.css')}}" rel="stylesheet" media="all">
-    <link href="{{@asset('admin_assets/vendor/mdi-font/css/material-design-iconic-font.min.css')}}" rel="stylesheet" media="all">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link href="{{@asset('admin_assets/vendor/font-awesome-4.7/css/font-awesome.min.css')}}" rel="stylesheet"
+        media="all">
+    <link href="{{@asset('admin_assets/vendor/font-awesome-5/css/fontawesome-all.min.css')}}" rel="stylesheet"
+        media="all">
+    <link href="{{@asset('admin_assets/vendor/mdi-font/css/material-design-iconic-font.min.css')}}" rel="stylesheet"
+        media="all">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <!-- Bootstrap CSS-->
     <link href="{{@asset('admin_assets/vendor/bootstrap-4.1/bootstrap.min.css')}}" rel="stylesheet" media="all">
     <!-- Main CSS-->
@@ -29,7 +33,7 @@
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
                         <a class="logo" href="index.html">
-                            <img src="images/icon/logo.png" alt="CoolAdmin" />
+                            <img src="{{@asset('admin_assets/images/icon/logo.png')}}" alt="CoolAdmin" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -42,95 +46,49 @@
             <nav class="navbar-mobile">
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
-                        <li class="has-sub">
-                            <a class="js-arrow" href="#">
+                    <li class="@yield('dashboard_active')">
+                            <a href="{{url('/admin/dashboard')}}">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                            <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                                <li>
-                                    <a href="index.html">Dashboard 1</a>
-                                </li>
-                                <li>
-                                    <a href="index2.html">Dashboard 2</a>
-                                </li>
-                                <li>
-                                    <a href="index3.html">Dashboard 3</a>
-                                </li>
-                                <li>
-                                    <a href="index4.html">Dashboard 4</a>
-                                </li>
-                            </ul>
                         </li>
-                        <li>
-                            <a href="chart.html">
-                                <i class="fas fa-chart-bar"></i>Charts</a>
+                        <li class="@yield('product_active')">
+                            <a href="{{url('/admin/products')}}">
+                                <i class="fas fa-tachometer-alt"></i>Products</a>
                         </li>
-                        <li>
-                            <a href="table.html">
-                                <i class="fas fa-table"></i>Tables</a>
+                        <li class="@yield('category_active')">
+                            <a href="{{url('/admin/category')}}">
+                                <i class="fas fa-list"></i>Category</a>
                         </li>
-                        <li>
-                            <a href="form.html">
-                                <i class="far fa-check-square"></i>Forms</a>
+                        <li class="@yield('coupon_active')">
+                            <a href="{{url('/admin/coupons')}}">
+                                <i class="fas fa-tags"></i>Coupon</a>
                         </li>
-                        <li>
-                            <a href="calendar.html">
-                                <i class="fas fa-calendar-alt"></i>Calendar</a>
+                        <li class="@yield('size_active')">
+                            <a href="{{url('/admin/attributes/size')}}">
+                                <i class="fas fa-credit-card"></i>Size</a>
                         </li>
-                        <li>
-                            <a href="map.html">
-                                <i class="fas fa-map-marker-alt"></i>Maps</a>
+                        <li class="@yield('color_active')">
+                            <a href="{{url('/admin/attributes/color')}}">
+                                <i class="fas fa-paint-brush"></i>Color</a>
+                        </li>
+                        <li class="@yield('users_active')">
+                            <a href="{{url('/admin/users')}}">
+                                <i class="fas fa-users-cog"></i>Users</a>
+                        </li>
+                        <li class="@yield('brand_active')">
+                            <a href="{{url('/admin/attributes/brands')}}">
+                                <i class="fas fa-bold"></i>Brands</a>
+                        </li>
+                        <li class="@yield('tax_active')">
+                            <a href="{{url('/admin/attributes/tax')}}">
+                                <i class="fas fa-percentage"></i>Tax</a>
                         </li>
                         <li class="has-sub">
                             <a class="js-arrow" href="#">
-                                <i class="fas fa-copy"></i>Pages</a>
-                            <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                                <li>
-                                    <a href="login.html">Login</a>
-                                </li>
-                                <li>
-                                    <a href="register.html">Register</a>
-                                </li>
-                                <li>
-                                    <a href="forget-pass.html">Forget Password</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="fas fa-desktop"></i>UI Elements</a>
-                            <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                                <li>
-                                    <a href="button.html">Button</a>
-                                </li>
-                                <li>
-                                    <a href="badge.html">Badges</a>
-                                </li>
-                                <li>
-                                    <a href="tab.html">Tabs</a>
-                                </li>
-                                <li>
-                                    <a href="card.html">Cards</a>
-                                </li>
-                                <li>
-                                    <a href="alert.html">Alerts</a>
-                                </li>
-                                <li>
-                                    <a href="progress-bar.html">Progress Bars</a>
-                                </li>
-                                <li>
-                                    <a href="modal.html">Modals</a>
-                                </li>
-                                <li>
-                                    <a href="switch.html">Switchs</a>
-                                </li>
-                                <li>
-                                    <a href="grid.html">Grids</a>
-                                </li>
-                                <li>
-                                    <a href="fontawesome.html">Fontawesome Icon</a>
-                                </li>
-                                <li>
-                                    <a href="typo.html">Typography</a>
+                                <i class="fas fa-tachometer-alt"></i>Appearance</a>
+                            <ul class="list-unstyled navbar__sub-list js-sub-list">
+                                <li class="@yield('home_banner_active')">
+                                    <a href="{{url('/admin/home_banners')}}">
+                                        <i class="fas fa-bold"></i>Home Banners</a>
                                 </li>
                             </ul>
                         </li>
@@ -186,24 +144,16 @@
                             <a href="{{url('/admin/attributes/tax')}}">
                                 <i class="fas fa-percentage"></i>Tax</a>
                         </li>
-                        <!-- <li class="has-sub">
+                        <li class="has-sub">
                             <a class="js-arrow" href="#">
-                                <i class="fas fa-tachometer-alt"></i>Category</a>
+                                <i class="fas fa-tachometer-alt"></i>Appearance</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                <li>
-                                    <a href="index.html">Dashboard 1</a>
-                                </li>
-                                <li>
-                                    <a href="index2.html">Dashboard 2</a>
-                                </li>
-                                <li>
-                                    <a href="index3.html">Dashboard 3</a>
-                                </li>
-                                <li>
-                                    <a href="index4.html">Dashboard 4</a>
+                                <li class="@yield('home_banner_active')">
+                                    <a href="{{url('/admin/home_banners')}}">
+                                        <i class="fas fa-bold"></i>Home Banners</a>
                                 </li>
                             </ul>
-                        </li> -->
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -217,8 +167,8 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="header-wrap">
-                        <div class="form-header">
-                        </div>
+                            <div class="form-header">
+                            </div>
                             <div class="header-button">
                                 <!-- <div class="noti-wrap">
                                     <div class="noti__item js-item-menu">
@@ -335,7 +285,8 @@
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
-                                            <img src="{{@asset('admin_assets/images/icon/avatar-01.jpg')}}" alt="John Doe" />
+                                            <img src="{{@asset('admin_assets/images/icon/avatar-01.jpg')}}"
+                                                alt="John Doe" />
                                         </div>
                                         <div class="content">
                                             <a class="js-acc-btn" href="#">john doe</a>
@@ -344,7 +295,8 @@
                                             <div class="info clearfix">
                                                 <div class="image">
                                                     <a href="#">
-                                                        <img src="{{@asset('admin_assets/images/icon/avatar-01.jpg')}}" alt="John Doe" />
+                                                        <img src="{{@asset('admin_assets/images/icon/avatar-01.jpg')}}"
+                                                            alt="John Doe" />
                                                     </a>
                                                 </div>
                                                 <div class="content">
@@ -386,10 +338,10 @@
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                       
-                       @section('content')
-                       @show()
-                       
+
+                        @section('content')
+                        @show()
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="copyright">
