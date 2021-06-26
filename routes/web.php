@@ -26,7 +26,8 @@ use App\Http\Controllers\Admin\HomeBannerController;
 |
 */
 Route::get('/',[FrontController::class,'index']);
-Route::get('/product/{product_id}/{product_slug}',[FrontController::class,'product_detail']);
+Route::post('/login/auth',[FrontController::class,'Login']);
+Route::get('/product/{product_slug}',[FrontController::class,'product_detail']);
 
 Route::get('/admin/login',[AdminController::class,'index']);
 

@@ -118,9 +118,6 @@ class ProductController extends Controller
     ## FOR INSERT AND UPDATE PRODUCTS
     public function manage_product_process(Request $request)
     {
-        // echo "<pre>";
-        // print_r($request->post());
-        // die();
         $id = $request->input('product_id');
         if($id == 0){
             $product_image_validation = "required|mimes:jpg,jpeg,png";
@@ -274,12 +271,12 @@ class ProductController extends Controller
                 $ProductsImagesrArr['images'] = $image_name[$key];
 
             }
-            else{
-                ## if we are editing/updating product then the image will not be added
-                if($piidArr[$key]==''){
-                    $ProductsImagesrArr['images'] = "No Image"; 
-                }
-            }
+            // else{
+            //     ## if we are editing/updating product then the image will not be added
+            //     if($piidArr[$key]==''){
+            //         $ProductsImagesrArr['images'] = "No Image"; 
+            //     }
+            // }
             if($piidArr[$key] == ''){
                 DB::table('product_images')->insert($ProductsImagesrArr);
             }
@@ -329,4 +326,5 @@ class ProductController extends Controller
         $request->session()->flash("product-image-msg","Product Image Deleted Successfully");
         return redirect('admin/product/edit/'.$product_id);
     }
+
 }

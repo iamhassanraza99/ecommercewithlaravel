@@ -167,12 +167,12 @@
                                             <figure>
                                                 @if($productArr->product_image == "")
                                                 <a class="aa-product-img"
-                                                    href="{{url('product/'.$productArr->id.$productArr->product_slug)}}"><img
+                                                    href="{{url('product/'.$productArr->product_slug)}}"><img
                                                         src="{{@asset('front_assets/img/man/polo-shirt-2.png')}}"
                                                         alt="polo shirt img"></a>
                                                 @else
                                                 <a class="aa-product-img"
-                                                    href="{{url('product/'.$cat->id.'/'.$productArr->product_slug)}}"><img
+                                                    href="{{url('product/'.$productArr->product_slug)}}"><img
                                                         src="{{@asset('storage/media/products/'.$productArr->product_image)}}"
                                                         width="250px" height="300px" alt="polo shirt img"></a>
                                                 @endif
@@ -652,7 +652,7 @@
                             <!-- / featured product category -->
                             <!-- start trending product category -->
                             <div class="tab-pane fade" id="trending">
-                                <ul class="aa-product-catg aa-trending-slider">
+                                <ul class="aa-product-catg aa-featured-slider">
                                     <!-- start single product item -->
                                     @if(isset($Trending_Products[0]))
                                     @foreach($Trending_Products as $productArr)
@@ -719,7 +719,7 @@
                             <!-- / trending product category -->
                             <!-- start discounted product category -->
                             <div class="tab-pane fade" id="discounted">
-                                <ul class="aa-product-catg aa-discounted-slider">
+                                <ul class="aa-product-catg aa-featured-slider">
                                     <!-- start single product item -->
                                     @if(isset($Discounted_Products[0]))
                                     @foreach($Discounted_Products as $productArr)
@@ -839,10 +839,24 @@
             <div class="col-md-12">
                 <div class="aa-client-brand-area">
                     <ul class="aa-client-brand-slider">
+                    @if(isset($Brands[0]))
                         @foreach($Brands as $brand)
                         <li><a href="#"><img src="{{@asset('storage/media/brands/'.$brand->image)}}"
                                     alt="{{$brand->image}}"></a></li>
                         @endforeach
+                    @else
+                    <li><a href="#"><img src="{{@asset('front_assets/img/client-brand-java.png')}}" alt="java img"></a></li>
+                    <li><a href="#"><img src="{{@asset('front_assets/img/client-brand-jquery.png')}}" alt="jquery img"></a></li>
+                    <li><a href="#"><img src="{{@asset('front_assets/img/client-brand-html5.png')}}" alt="html5 img"></a></li>
+                    <li><a href="#"><img src="{{@asset('front_assets/img/client-brand-css3.png')}}" alt="css3 img"></a></li>
+                    <li><a href="#"><img src="{{@asset('front_assets/img/client-brand-wordpress.png')}}" alt="wordPress img"></a></li>
+                    <li><a href="#"><img src="{{@asset('front_assets/img/client-brand-joomla.png')}}" alt="joomla img"></a></li>
+                    <li><a href="#"><img src="{{@asset('front_assets/img/client-brand-java.png')}}" alt="java img"></a></li>
+                    <li><a href="#"><img src="{{@asset('front_assets/img/client-brand-jquery.png')}}" alt="jquery img"></a></li>
+                    <li><a href="#"><img src="{{@asset('front_assets/img/client-brand-html5.png')}}" alt="html5 img"></a></li>
+                    <li><a href="#"><img src="{{@asset('front_assets/img/client-brand-css3.png')}}" alt="css3 img"></a></li>
+                    <li><a href="#"><img src="{{@asset('front_assets/img/client-brand-wordpress.png')}}" alt="wordPress img"></a></li>
+                    @endif
                     </ul>
                 </div>
             </div>

@@ -67,6 +67,7 @@
                             <div class="col-md-4">
                                 <label for="category_id" class="control-label mb-1">Product Category</label>
                                 <select name="category_id" id="category_id" class="form-control">
+                                <option value="0">Select Categories</option>
                                     @foreach($category as $cat)
                                     @if($category_id == $cat->id)
                                     <option selected value="{{$cat->id}}">
@@ -118,9 +119,9 @@
                     <div class="form-group">
                         <label for="technical_specifications" class="control-label mb-1">Technical
                             Specifications</label>
-                        <input id="technical_specifications" name="technical_specifications" type="text"
+                        <textarea id="technical_specifications" name="technical_specifications" type="text"
                             value="{{$technical_specifications}}" class="form-control" aria-required="true"
-                            aria-invalid="false">
+                            cols="30" rows="20">{{$technical_specifications}}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="uses" class="control-label mb-1">Uses</label>

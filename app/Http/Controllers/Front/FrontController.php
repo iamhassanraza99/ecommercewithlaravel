@@ -9,6 +9,20 @@ use Illuminate\Support\Facades\Hash;
 
 class FrontController extends Controller
 {
+    public function Login(Request $request){
+        // dd($request->post());
+        $Arr['Users'] = DB::table('users')->get();
+        if(isset($Arr['Users'][0])){
+            if($request->post('email') == $Arr['Users'][0]->email && $request->post('password') == $Arr['Users'][0]->password){
+                echo "yes";
+            }
+            else{
+                echo "No";
+            }
+        }
+       
+        // dd($Arr);
+    }
    
     public function index(Request $request)
     {
@@ -92,27 +106,44 @@ class FrontController extends Controller
         return view('front.index',$Arr);
     }
 
-    public function product_detail($category_id,$product_slug){
+    public function product_detail(Request $request,$product_slug){
 
         
         $Arr['ProductDetail'] = DB::table('products')
         ->where(['product_slug'=>$product_slug])
+        ->where(['status'=>'1'])
         ->get();
-        $Arr['pid'] = $Arr['ProductDetail'][0]->id;
-            foreach($Arr['ProductDetail'] as $list1){
+        foreach($Arr['ProductDetail'] as $list1){
                 
                 $Arr['Product_Attr'][$list1->id] = DB::table('products_attr')
                 ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
                 ->leftjoin('colors','colors.id','=','products_attr.color_id')
                 ->where(['product_id'=>$list1->id])
                 ->get();
-            }
-        // $cat_id = $Arr['ProductDetail']->category_id;
-        $Arr['Category'] = DB::table('categories')
-        ->where(['status'=>'1'])
-        ->where(['id'=>$category_id])
-        ->get();
+                $Arr['Product_Images'][$list1->id] = DB::table('product_images')
+                ->where(['product_id'=>$list1->id])
+                ->get();
+        }
 
+        // prix($Arr['ProductDetail']);
+        $cat_id = $Arr['ProductDetail'][0]->category_id;
+        $Arr['Related_Products'] = DB::table('products')
+        ->where(['status'=>'1'])
+        ->where('product_slug','!=',$product_slug)
+        ->where(['category_id'=>$cat_id])
+        ->get();
+        foreach($Arr['Related_Products'] as $list1){
+                
+            $Arr['Related_Product_Attr'][$list1->id] = DB::table('products_attr')
+            ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
+            ->leftjoin('colors','colors.id','=','products_attr.color_id')
+            ->where(['product_id'=>$list1->id])
+            ->get();
+            $Arr['Product_Images'][$list1->id] = DB::table('product_images')
+            ->where(['product_id'=>$list1->id])
+            ->get();
+    }
+        // prix($Arr['Related_Product_Attr']);
         return view('front.product_detail',$Arr);
     }
 function prix($arr){
