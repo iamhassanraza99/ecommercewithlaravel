@@ -15,9 +15,7 @@ class FrontController extends Controller
         $Arr['HomeBanner'] = DB::table('home_banners')
         ->where(['status'=>'1'])
         ->get();
-        // echo "<pre>";
-        // print_r($Arr['HomeBanner']);
-        // die();
+        
         $Arr['Category'] = DB::table('categories')->where(['status'=>'1'])->where(['showOnFrontend'=>'1'])->get();
         
         foreach($Arr['Category'] as $list){
@@ -35,19 +33,19 @@ class FrontController extends Controller
                 ->get();
             }
         }
-       
+    //    prix($Arr['Product_Attr']);
         $Arr['Brands'] = DB::table('brands')
         ->where(['status'=>'1'])
         ->where(['showOnFrontend'=>'1'])
         ->get();
 
         // FEATURED PRODUCT START
-        $Arr['Featured_Products'][$list->id] = DB::table('products')
+        $Arr['Featured_Products'] = DB::table('products')
             ->where(['is_featured'=>'1'])
             ->where(['status'=>'1'])
             ->get();
-            
-        foreach($Arr['Featured_Products'][$list->id] as $list1){
+        
+        foreach($Arr['Featured_Products'] as $list1){
                 
                 $Arr['Featured_Product_Attr'][$list1->id] = DB::table('products_attr')
                 ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
@@ -56,14 +54,14 @@ class FrontController extends Controller
                 ->get();
         }
         // FEATURED PRODUCT END
-
+        // prix($Arr['Featured_Product_Attr']);
          // TRENDING PRODUCT START
-         $Arr['Trending_Products'][$list->id] = DB::table('products')
+         $Arr['Trending_Products'] = DB::table('products')
          ->where(['is_trending'=>'1'])
          ->where(['status'=>'1'])
          ->get();
          
-        foreach($Arr['Trending_Products'][$list->id] as $list1){
+        foreach($Arr['Trending_Products'] as $list1){
                 
                 $Arr['Trending_Products_Attr'][$list1->id] = DB::table('products_attr')
                 ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
@@ -74,12 +72,12 @@ class FrontController extends Controller
         // TRENDING PRODUCT END
 
         // DISCOUNTED PRODUCT START
-        $Arr['Discounted_Products'][$list->id] = DB::table('products')
+        $Arr['Discounted_Products'] = DB::table('products')
         ->where(['is_discounted'=>'1'])
         ->where(['status'=>'1'])
         ->get();
         
-        foreach($Arr['Discounted_Products'][$list->id] as $list1){
+        foreach($Arr['Discounted_Products'] as $list1){
                 
                 $Arr['Discounted_Products_Attr'][$list1->id] = DB::table('products_attr')
                 ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
@@ -115,12 +113,12 @@ class FrontController extends Controller
         ->where(['id'=>$category_id])
         ->get();
 
-        // echo "<pre>";
-        // print_r($Arr['Category'][0]);
-        // print_r($Arr['Product_Attr'][$pid][0]->price);
-        // die();
         return view('front.product_detail',$Arr);
     }
-
+function prix($arr){
+    echo "<pre>";
+    print_r($arr);
+    die();
+}
     
 }

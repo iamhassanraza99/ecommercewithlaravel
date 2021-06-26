@@ -169,7 +169,7 @@
           </div>
           <div class="navbar-collapse collapse">
             <!-- Left nav -->
-            <ul class="nav navbar-nav">
+            <!-- <ul class="nav navbar-nav">
               <li><a href="index.html">Home</a></li>
               <li><a href="#">Men <span class="caret"></span></a>
                 <ul class="dropdown-menu">                
@@ -277,7 +277,8 @@
                   <li><a href="404.html">404 Page</a></li>                
                 </ul>
               </li>
-            </ul>
+            </ul> -->
+            {!!getTopNavCat()!!}
           </div><!--/.nav-collapse -->
         </div>
       </div>       
