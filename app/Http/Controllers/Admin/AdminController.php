@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Admin\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -45,7 +46,25 @@ class AdminController extends Controller
         
     }
     function dashboard(){
-        return view('admin/dashboard');
+        $Arr['Users'] = DB::table('users')
+        ->where(['status'=>'1'])
+        ->get();
+        $Arr['Total_Users'] = count($Arr['Users']);
+        $Arr['Products'] = DB::table('products')
+        ->where(['status'=>'1'])
+        ->get();
+        $Arr['Total_Products'] = count($Arr['Products']);
+        
+        $Arr['Coupons'] = DB::table('coupons')
+        ->where(['status'=>'1'])
+        ->get();
+        $Arr['Total_Coupons'] = count($Arr['Coupons']);
+        
+        $Arr['Brands'] = DB::table('brands')
+        ->where(['status'=>'1'])
+        ->get();
+        $Arr['Total_Brands'] = count($Arr['Brands']);
+        return view('admin/dashboard',$Arr);
     }
     # To Convert Password into Encrypted form
 
@@ -54,5 +73,4 @@ class AdminController extends Controller
     //     $res->password = Hash::make("123");
     //     $res->save();
     // }
-    
 }

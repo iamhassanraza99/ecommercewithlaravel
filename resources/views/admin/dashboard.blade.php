@@ -21,8 +21,8 @@
                         <i class="zmdi zmdi-account-o"></i>
                     </div>
                     <div class="text">
-                        <h2>10368</h2>
-                        <span>members online</span>
+                        <h2>{{$Total_Users}}</h2>
+                        <span>active user</span>
                     </div>
                 </div>
                 <div class="overview-chart">
@@ -39,8 +39,8 @@
                         <i class="zmdi zmdi-shopping-cart"></i>
                     </div>
                     <div class="text">
-                        <h2>388,688</h2>
-                        <span>items solid</span>
+                        <h2>{{$Total_Products}}</h2>
+                        <span>Products</span>
                     </div>
                 </div>
                 <div class="overview-chart">
@@ -57,8 +57,8 @@
                         <i class="zmdi zmdi-calendar-note"></i>
                     </div>
                     <div class="text">
-                        <h2>1,086</h2>
-                        <span>this week</span>
+                        <h2>{{$Total_Coupons}}</h2>
+                        <span>Coupons</span>
                     </div>
                 </div>
                 <div class="overview-chart">
@@ -75,8 +75,8 @@
                         <i class="zmdi zmdi-money"></i>
                     </div>
                     <div class="text">
-                        <h2>$1,060,386</h2>
-                        <span>total earnings</span>
+                        <h2>{{$Total_Brands}}</h2>
+                        <span>Brands</span>
                     </div>
                 </div>
                 <div class="overview-chart">
@@ -86,7 +86,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<!-- <div class="row">
     <div class="col-lg-6">
         <div class="au-card recent-report">
             <div class="au-card-inner">
@@ -534,5 +534,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 @endsection
