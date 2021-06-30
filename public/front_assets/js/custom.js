@@ -357,3 +357,13 @@ jQuery(function($){
     
 });
 
+function ShowColoronSizeSelection(size){
+  // alert(size);
+  $('.product_color_hide').hide();
+  $('.size_'+size).show();
+
+}
+function ShowProductsonColorSelection(img){
+  // alert(ProrductId);
+  $('.simpleLens-big-image-container').html('<a data-lens-image="{{@asset('+'storage/media/products/'+img+')}}" class="simpleLens-lens-image"><img src="{{@asset('+'storage/media/products/'+img+')}}" width="250px" height="300px" class="simpleLens-big-image"></a>');
+}

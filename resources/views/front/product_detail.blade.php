@@ -84,9 +84,17 @@
                                     <p>{!!$product->short_desc!!}</p>
                                     <h4>Size</h4>
                                     <div class="aa-prod-view-size">
-                                        @foreach($Product_Attr[$product->id] as $attr)
-                                        @if($attr->size != "")
-                                        <a href="#">{{$attr->size}}</a>
+                                    @php
+                                    $arrSize =[];
+                                    foreach($Product_Attr[$product->id] as $attr)
+                                    {
+                                        $arrSize[] = $attr->size;
+                                    }
+                                    $arrSize = array_unique($arrSize);
+                                    @endphp
+                                        @foreach($arrSize as $attr)
+                                        @if($attr != "")
+                                        <a href="#" class="size_{{$attr}}" onclick=ShowColoronSizeSelection('{{$attr}}')>{{$attr}}</a>
                                         @endif
                                         @endforeach
                                     </div>
@@ -94,23 +102,20 @@
                                     <div class="aa-color-tag">
                                         @foreach($Product_Attr[$product->id] as $attr)
                                         @if($attr->color != "")
-                                        <a href="#" class="aa-color-{{strtolower($attr->color)}}"></a>
+                                        <a href="#" onclick=ShowProductsonColorSelection('{{$attr->image}}') class="aa-color-{{strtolower($attr->color)}} size_{{$attr->size}} product_color_hide"></a>
                                         @endif
                                         @endforeach
                                     </div>
                                     <div class="aa-prod-quantity">
                                         <form action="">
                                             <select id="" name="">
-                                                <option selected="1" value="0">1</option>
-                                                <option value="1">2</option>
-                                                <option value="2">3</option>
-                                                <option value="3">4</option>
-                                                <option value="4">5</option>
-                                                <option value="5">6</option>
+                                            @for($i='1';$i <= 12; $i++)
+                                                <option value="{{$i}}">{{$i}}</option>
+                                            @endfor
                                             </select>
                                         </form>
                                         <p class="aa-prod-category">
-                                            Category: <a href="#"></a>
+                                            Model: <a href="#">{{$product->product_model}}</a>
                                         </p>
                                     </div>
                                     <div class="aa-prod-view-bottom">

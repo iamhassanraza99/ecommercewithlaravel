@@ -125,7 +125,7 @@ class FrontController extends Controller
                 ->get();
         }
 
-        // prix($Arr['ProductDetail']);
+        // prix($Arr['Product_Attr']);
         $cat_id = $Arr['ProductDetail'][0]->category_id;
         $Arr['Related_Products'] = DB::table('products')
         ->where(['status'=>'1'])
