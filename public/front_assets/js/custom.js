@@ -371,13 +371,24 @@ function ShowProductsonColorSelection(img,color){
   $('#color_id').val(color);
   $('.simpleLens-big-image-container').html('<a data-lens-image="{{@asset('+'storage/media/products/'+img+')}}" class="simpleLens-lens-image"><img src="{{@asset('+'storage/media/products/'+img+')}}" width="250px" height="300px" class="simpleLens-big-image"></a>');
 }
+function home_add_to_cart(ProductId,size_id,color_id){
+  // alert($('#price').val());
+  $('#product_id').val(ProductId);
+  $('#size_id').val(size_id);
+  $('#color_id').val(color_id);
+  $('#product_qty').val($('#qty').val());
+  $('#product_price').val($('#price').val());
+  add_to_cart(ProductId,size_id,color_id);
+}
 function add_to_cart(ProductId,size_id,color_id){
   $('#product_id').val(ProductId);
   $('#product_qty').val($('#qty').val());
   $('#product_price').val($('#price').val());
   
-  if(size_id == '0' && color_id){
+  if(size_id == '0'){
     size_id = 'no';
+  }
+  if(color_id == '0'){
     color_id = 'no';
   }
   
@@ -393,9 +404,22 @@ function add_to_cart(ProductId,size_id,color_id){
       data: $('#AddtoCartForm').serialize(),
       type: 'post',
       success: function(result){
-        $('#add_to_cart_msg').html('<div class="alert alert-success"><strong>Thanks!</strong> Your Product has been '+result['msg']+' to Cart.</div>');
+        alert('Product '+result['msg']);
       }
     });
   }
   
+}
+function updateQty(pid,attr_id,size,color,price){
+$('#pid').val(pid);
+$('#attr_id').val(attr_id);
+$('#size_id').val(size);
+$('#color_id').val(color);
+var qty = $('#qty_'+attr_id).val();
+$('#pqty').val(qty);
+$('#p_price').val(price);
+add_to_cart(pid,size,color);
+var total_price = qty*price;
+alert(total_price);
+$('#total_price_'+attr_id).html('Rs. '+total_price);
 }

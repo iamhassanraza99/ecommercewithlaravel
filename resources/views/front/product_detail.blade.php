@@ -1,5 +1,5 @@
 @extends('front/layout/layout')
-
+@section('page_title','Product Detail')
 @section('container')
 
 <!-- catg header banner section -->

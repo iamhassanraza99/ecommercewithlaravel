@@ -47,13 +47,14 @@ class FrontController extends Controller
             
             foreach($Arr['Category_Products'][$list->id] as $list1){
                 
-                $Arr['Product_Attr'][$list1->id] = DB::table('products_attr')
+                $Arr['Home_Product_Attr'][$list1->id] = DB::table('products_attr')
                 ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
                 ->leftjoin('colors','colors.id','=','products_attr.color_id')
                 ->where(['product_id'=>$list1->id])
                 ->get();
             }
         }
+        // prix($Arr['Home_Product_Attr']);
         $Arr['Brands'] = DB::table('brands')
         ->where(['status'=>'1'])
         ->where(['showOnFrontend'=>'1'])
@@ -106,9 +107,7 @@ class FrontController extends Controller
                 ->get();
         }
         // DISCOUNTED PRODUCT END
-        // echo "<pre>";
-        // print_r($Arr['Discounted_Products']);
-        // die();
+        // prix($Arr);
         return view('front.index',$Arr);
     }
 
@@ -174,7 +173,7 @@ class FrontController extends Controller
             ->where(['sizes.size'=>$size])
             ->where(['colors.color'=>$color])
             ->get();
-
+            
             $product_attr_id = $result[0]->id;
 
             $checkDatabaseRecord = DB::table('cart')
@@ -206,6 +205,33 @@ class FrontController extends Controller
                 $msg = "Added";
             }
             return response()->json(['msg'=>$msg]);
+    }
+
+    function cart(Request $request){
+        if($request->session()->has('FRONT_USER_LOGIN')){
+            $uid = $request->session()->get('FRONT_USER_LOGIN');
+            $user_type = "Registered";
+        }
+        else{
+            $uid = getUserTempId();
+            $user_type = "Not-Register";
+        }
+        $Arr['Cart'] = DB::table('cart')
+        ->leftjoin('products','products.id','=','cart.product_id')
+        ->leftjoin('products_attr','products_attr.id','=','cart.product_attr_id')
+        ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
+        ->leftjoin('colors','colors.id','=','products_attr.color_id')
+        ->where(['user'=>$uid])
+        ->where(['user_type'=>$user_type])
+        ->select('products.id as pid','products.product_name','products.product_slug','products.product_image','sizes.size','colors.color','products_attr.price','products_attr.id as attr_id', 'cart.qty')
+        ->get();
+        // prix($Arr['Cart']);
+        return view('front.cart',$Arr);
+    }
+    function removeFromCart(Request $request,$product_id){
+        DB::table('cart')->where(['product_id'=>$product_id])->delete();
+        $request->session()->flash('cart-msg','Product has been removed!');
+        return redirect('/cart');
     }
     
 }

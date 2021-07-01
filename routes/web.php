@@ -30,6 +30,8 @@ Route::post('/login/auth',[FrontController::class,'Login']);
 Route::get('/logout',[FrontController::class,'logout']);
 Route::get('/product/{product_slug}',[FrontController::class,'product_detail']);
 Route::post('/add_to_cart',[FrontController::class,'add_to_cart']);
+Route::get('/product_remove_from_cart/{product_id}',[FrontController::class,'removeFromCart']);
+Route::get('/cart',[FrontController::class,'cart']);
 
 Route::get('/admin/login',[AdminController::class,'index']);
 

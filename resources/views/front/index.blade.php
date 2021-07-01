@@ -1,5 +1,5 @@
 @extends('front/layout/layout')
-
+@section('page_title','Home')
 @section('container')
 <!-- Start slider -->
 <section id="aa-slider">
@@ -177,18 +177,19 @@
                                                         width="250px" height="300px" alt="polo shirt img"></a>
                                                 @endif
                                                 <a class="aa-add-card-btn"
-                                                    href="{{url('product/'.$productArr->product_slug)}}"><span
+                                                    href="javascript:void(0)" onclick=home_add_to_cart('{{$productArr->id}}','{{$Home_Product_Attr[$productArr->id][0]->size}}','{{$Home_Product_Attr[$productArr->id][0]->color}}')><span
                                                         class="fa fa-shopping-cart"></span>Add To Cart</a>
                                                 <figcaption>
                                                     <h4 class="aa-product-title"><a
                                                             href="{{url('product/'.$productArr->product_slug)}}">{{$productArr->product_name}}</a>
                                                     </h4>
-                                                    @if(isset($Product_Attr[0]))
+                                                    @if(isset($Home_Product_Attr[$productArr->id][0]))
+                                                    <input type="hidden" id="price" name="price" value="{{$Home_Product_Attr[$productArr->id][0]->price}}">
                                                     <span
-                                                        class="aa-product-price">Rs.{{$Product_Attr[0]->price}}
+                                                        class="aa-product-price">Rs.{{$Home_Product_Attr[$productArr->id][0]->price}}
                                                     </span>
                                                     <span class="aa-product-price"><del>Rs.
-                                                            {{$Featured_Product_Attr[0]->maximum_retail_price}}</del></span>
+                                                            {{$Home_Product_Attr[$productArr->id][0]->maximum_retail_price}}</del></span>
                                                     @else
                                                     <span class="aa-product-price">Rs.</span>
                                                     <span class="aa-product-price">
@@ -238,7 +239,7 @@
                                                         src="{{@asset('front_assets/img/man/polo-shirt-2.png')}}"
                                                         alt="polo shirt img"></a>
                                                 <a class="aa-add-card-btn" href="#"><span
-                                                        class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                                        class="fa fa-shopping-cart" ></span>Add To Cart</a>
                                                 <figcaption>
                                                     <h4 class="aa-product-title"><a href="#">Polo T-Shirt</a></h4>
                                                     <span class="aa-product-price">$45.50</span><span
@@ -864,4 +865,14 @@
     </div>
 </section>
 <!-- / Client Brand -->
+
+<input type="hidden" id="qty" name="qty" value="1">
+<form id="AddtoCartForm">
+@csrf
+<input type="hidden" id="product_id" name="product_id">
+<input type="hidden" id="size_id" name="size_id">
+<input type="hidden" id="color_id" name="color_id">
+<input type="hidden" id="product_qty" name="product_qty">
+<input type="hidden" id="product_price" name="product_price">
+</form>
 @endsection
