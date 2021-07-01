@@ -326,6 +326,7 @@
                                 <div class="col-md-2">
                                     <label for="size" class="control-label mb-1">Size</label>
                                     <select name="size[]" id="size" class="form-control">
+                                    <option value="0">Select Size</option>
                                         @foreach($sizes as $size)
                                         @if($arr['size_id']== $size->id)
                                         <option selected value="{{$size->id}}">{{$size->size}}</option>
@@ -338,6 +339,7 @@
                                 <div class="col-md-3">
                                     <label for="color" class="control-label mb-1">Color</label>
                                     <select name="color[]" id="color" class="form-control">
+                                    <option value="0">Select Colors</option>
                                         @foreach($colors as $color)
                                         @if($arr['color_id']==$color->id)
                                         <option selected value="{{$color->id}}">{{$color->color}}</option>

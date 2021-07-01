@@ -12,9 +12,12 @@ class FrontController extends Controller
     public function Login(Request $request){
         // dd($request->post());
         $Arr['Users'] = DB::table('users')->get();
+        // prix($Arr['Users']);
         if(isset($Arr['Users'][0])){
             if($request->post('email') == $Arr['Users'][0]->email && $request->post('password') == $Arr['Users'][0]->password){
-                echo "yes";
+                $request->session()->put('FRONT_USER_LOGIN',$Arr['Users'][0]->id);
+                $request->session()->put('USER_NAME',$Arr['Users'][0]->name);
+                return back();
             }
             else{
                 echo "No";
@@ -22,6 +25,10 @@ class FrontController extends Controller
         }
        
         // dd($Arr);
+    }
+    public function logout(Request $request){
+        $request->session()->remove('FRONT_USER_LOGIN');
+        return back();
     }
    
     public function index(Request $request)
@@ -47,7 +54,6 @@ class FrontController extends Controller
                 ->get();
             }
         }
-    //    prix($Arr['Product_Attr']);
         $Arr['Brands'] = DB::table('brands')
         ->where(['status'=>'1'])
         ->where(['showOnFrontend'=>'1'])
@@ -143,13 +149,63 @@ class FrontController extends Controller
             ->where(['product_id'=>$list1->id])
             ->get();
     }
-        // prix($Arr['Related_Product_Attr']);
         return view('front.product_detail',$Arr);
     }
-function prix($arr){
-    echo "<pre>";
-    print_r($arr);
-    die();
-}
+    function add_to_cart(Request $request){
+        if($request->session()->has('FRONT_USER_LOGIN')){
+            $uid = $request->session()->get('FRONT_USER_LOGIN');
+            $user_type = "Registered";
+        }
+        else{
+            $uid = getUserTempId();
+            $user_type = "Not-Register";
+        }
+            $product_id = $request->post('product_id');
+            $size = $request->post('size_id');
+            $color = $request->post('color_id');
+            $product_qty = $request->post('product_qty');
+            $product_price = $request->post('product_price');
+
+            $result = DB::table('products_attr')
+            ->select('products_attr.id')
+            ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
+            ->leftjoin('colors','colors.id','=','products_attr.color_id')
+            ->where(['product_id'=>$product_id])
+            ->where(['sizes.size'=>$size])
+            ->where(['colors.color'=>$color])
+            ->get();
+
+            $product_attr_id = $result[0]->id;
+
+            $checkDatabaseRecord = DB::table('cart')
+            ->where(['user'=>$uid])
+            ->where(['user_type'=>$user_type])
+            ->where(['product_id'=>$product_id])
+            ->where(['product_attr_id'=>$product_attr_id])
+            ->where(['price'=>$product_price])
+            ->get();
+
+            if(isset($checkDatabaseRecord[0])){
+                
+                $update_id = $checkDatabaseRecord[0]->id;
+                DB::table('cart')
+                ->where(['id'=>$update_id])
+                ->update(['qty'=>$product_qty]);
+                $msg = "Updated";
+            }
+            else{
+                $id = DB::table('cart')->insertGetID([
+                    'user' => $uid,
+                    'user_type' => $user_type,
+                    'product_id' => $product_id,
+                    'product_attr_id' => $product_attr_id,
+                    'qty' => $product_qty,
+                    'price' => $product_price,
+                    'added_on' => date('Y-m-d h:i:s')
+                ]);
+                $msg = "Added";
+            }
+            return response()->json(['msg'=>$msg]);
+    }
     
 }

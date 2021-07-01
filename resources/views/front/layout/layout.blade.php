@@ -72,7 +72,11 @@
                   <li class="hidden-xs"><a href="wishlist.html">Wishlist</a></li>
                   <li class="hidden-xs"><a href="cart.html">My Cart</a></li>
                   <li class="hidden-xs"><a href="checkout.html">Checkout</a></li>
+                  @if(Session::has('FRONT_USER_LOGIN'))
+                  <li><a href="/logout" >Logout</a></li>
+                  @else
                   <li><a href="" data-toggle="modal" data-target="#login-modal">Login</a></li>
+                  @endif
                 </ul>
               </div>
             </div>
