@@ -204,7 +204,18 @@ class FrontController extends Controller
                 ]);
                 $msg = "Added";
             }
-            return response()->json(['msg'=>$msg]);
+
+            // To SEND RESPONSE BACK TO ADD-TO-CART-FUNCNTION
+            $result = DB::table('cart')
+            ->leftjoin('products','products.id','=','cart.product_id')
+            ->leftjoin('products_attr','products_attr.id','=','cart.product_attr_id')
+            ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
+            ->leftjoin('colors','colors.id','=','products_attr.color_id')
+            ->where(['user'=>$uid])
+            ->where(['user_type'=>$user_type])
+            ->select('products.id as pid','products.product_name','products.product_slug','products.product_image','sizes.size','colors.color','products_attr.price','products_attr.id as attr_id', 'cart.qty')
+            ->get();
+            return response()->json(['msg'=>$msg,'data'=>$result,'totalCartItems'=>count($result)]);
     }
 
     function cart(Request $request){
@@ -231,7 +242,7 @@ class FrontController extends Controller
     function removeFromCart(Request $request,$product_attr_id){
         DB::table('cart')->where(['product_attr_id'=>$product_attr_id])->delete();
         $request->session()->flash('cart-msg','Product has been removed!');
-        return redirect('/cart');
+        return back();
     }
     
 }

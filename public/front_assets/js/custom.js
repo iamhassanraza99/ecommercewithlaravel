@@ -424,6 +424,22 @@ function add_to_cart(){
     type: 'post',
     success: function(result){
       alert('Product '+result['msg']);
+      if(result['data'] == 0){
+        $('.aa-cart-notify').html('0');
+        $('.aa-cartbox-summary').remove();
+      }
+      else{
+        $('.aa-cart-notify').html(result['totalCartItems']);
+        var total_price = 0;
+        var html='<ul>';
+        $.each(result['data'],function(key,val){
+          total_price = parseInt(total_price)+( parseInt(val.qty)*parseInt(val.price) );
+         html+= '<li><a class="aa-cartbox-img" href="#"><img src="'+PRODUCT_IMAGE_PATH+'/'+val.product_image+'" alt="img" width="150px" height="150px"></a><div class="aa-cartbox-info"><h4><a href="#">'+val.product_name+'</a></h4><p>'+val.qty+' x Rs.'+val.price+'</div><a class="aa-remove-product" href="/product_remove_from_cart/'+val.attr_id+'"><span class="fa fa-times"></span></a></li>';
+        });
+        html+='<li><span class="aa-cartbox-total-title">Total</span><span class="aa-cartbox-total-price"> Rs.'+total_price+'</span></li>';
+        html+='</ul> <a class="aa-cartbox-checkout aa-primary-btn" href="checkout.html">Checkout</a>';
+        $('.aa-cartbox-summary').html(html);
+      }
     }
   });
 }

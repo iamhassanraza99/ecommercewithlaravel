@@ -17,7 +17,9 @@
     <link href="{{@asset('front_assets/css/style.css')}}" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
-
+<script>
+    var PRODUCT_IMAGE_PATH= "{{@asset('/storage/media/products')}}";
+</script>
 </head>
 
 <body>
@@ -127,9 +129,8 @@
                                     <span class="aa-cart-notify">0</span>
                                     @endif
                                 </a>
-                                @if($totalItems > 0)
                                 <div class="aa-cartbox-summary">
-
+                                @if($totalItems > 0)
                                     <ul>
                                         @foreach($ShoppingCartItems as $item)
                                         @php
@@ -150,7 +151,6 @@
                                                 <br>Color: {{$item->color}}
                                                 @endif
                                                 </p>
-                                                
                                             </div>
                                             <a class="aa-remove-product"
                                                 href="{{url('/product_remove_from_cart/'.$item->attr_id)}}"><span
@@ -167,9 +167,8 @@
                                         </li>
                                     </ul>
                                     <a class="aa-cartbox-checkout aa-primary-btn" href="checkout.html">Checkout</a>
-
+                                    @endif
                                 </div>
-                                @endif
                             </div>
                             <!-- / cart box -->
                             <!-- search box -->
