@@ -50,7 +50,7 @@
                                         <tr>
                                             <td>
                                                 <a class="remove"
-                                                    href="{{url('/product_remove_from_cart/'.$cart->pid)}}">
+                                                    href="{{url('/product_remove_from_cart/'.$cart->attr_id)}}">
                                                     <fa class="fa fa-close"></fa>
                                                 </a>
                                             </td>

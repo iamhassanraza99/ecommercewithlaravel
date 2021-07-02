@@ -65,6 +65,27 @@ use Illuminate\Support\Facades\DB;
             return session()->get('USER_TEMP_ID');
         }
     }
+
+    function ShopingCart(){
+        if(session()->has('FRONT_USER_LOGIN')){
+            $uid = session()->get('FRONT_USER_LOGIN');
+            $user_type = "Registered";
+        }
+        else{
+            $uid = getUserTempId();
+            $user_type = "Not-Register";
+        }
+        $Arr = DB::table('cart')
+        ->leftjoin('products','products.id','=','cart.product_id')
+        ->leftjoin('products_attr','products_attr.id','=','cart.product_attr_id')
+        ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
+        ->leftjoin('colors','colors.id','=','products_attr.color_id')
+        ->where(['user'=>$uid])
+        ->where(['user_type'=>$user_type])
+        ->select('products.id as pid','products.product_name','products.product_slug','products.product_image','sizes.size','colors.color','products_attr.price','products_attr.id as attr_id', 'cart.qty')
+        ->get();
+        return $Arr;
+    }
     function prix($arr){
         echo "<pre>";
         print_r($arr);

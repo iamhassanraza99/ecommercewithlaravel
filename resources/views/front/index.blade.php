@@ -177,14 +177,14 @@
                                                         width="250px" height="300px" alt="polo shirt img"></a>
                                                 @endif
                                                 <a class="aa-add-card-btn"
-                                                    href="javascript:void(0)" onclick=home_add_to_cart('{{$productArr->id}}','{{$Home_Product_Attr[$productArr->id][0]->size}}','{{$Home_Product_Attr[$productArr->id][0]->color}}')><span
+                                                    href="javascript:void(0)" onclick=home_add_to_cart('{{$productArr->id}}','{{$Home_Product_Attr[$productArr->id][0]->size}}','{{$Home_Product_Attr[$productArr->id][0]->color}}','{{$Home_Product_Attr[$productArr->id][0]->price}}')><span
                                                         class="fa fa-shopping-cart"></span>Add To Cart</a>
                                                 <figcaption>
                                                     <h4 class="aa-product-title"><a
                                                             href="{{url('product/'.$productArr->product_slug)}}">{{$productArr->product_name}}</a>
                                                     </h4>
                                                     @if(isset($Home_Product_Attr[$productArr->id][0]))
-                                                    <input type="hidden" id="price" name="price" value="{{$Home_Product_Attr[$productArr->id][0]->price}}">
+                                                    <!-- <input type="hidden" id="price_{{$Home_Product_Attr[$productArr->id][0]->id}}" name="price" value="{{$Home_Product_Attr[$productArr->id][0]->price}}"> -->
                                                     <span
                                                         class="aa-product-price">Rs.{{$Home_Product_Attr[$productArr->id][0]->price}}
                                                     </span>
@@ -603,8 +603,8 @@
                                                     src="{{@asset('storage/media/products/'.$productArr->product_image)}}"
                                                     width="250px" height="300px" alt="polo shirt img"></a>
                                             @endif
-                                            <a class="aa-add-card-btn"
-                                                href="{{url('product/'.$productArr->product_slug)}}"><span
+                                            <a class="aa-add-card-btn" href="javascript:void(0)" 
+                                            onclick=home_add_to_cart('{{$productArr->id}}','{{$Home_Product_Attr[$productArr->id][0]->size}}','{{$Home_Product_Attr[$productArr->id][0]->color}}','{{$Home_Product_Attr[$productArr->id][0]->price}}')>><span
                                                     class="fa fa-shopping-cart"></span>Add To Cart</a>
                                             <figcaption>
                                                 <h4 class="aa-product-title"><a
@@ -671,8 +671,9 @@
                                                     width="250px" height="300px" alt="polo shirt img"></a>
                                             @endif
                                             <a class="aa-add-card-btn"
-                                                href="{{url('product/'.$productArr->product_slug)}}"><span
-                                                    class="fa fa-shopping-cart"></span>Add To Cart</a>
+                                                href="javascript:void(0)" 
+                                                onclick=home_add_to_cart('{{$productArr->id}}','{{$Home_Product_Attr[$productArr->id][0]->size}}','{{$Home_Product_Attr[$productArr->id][0]->color}}','{{$Home_Product_Attr[$productArr->id][0]->price}}')>><span
+                                                    class="fa fa-shopping-cart" ></span>Add To Cart</a>
                                             <figcaption>
                                                 <h4 class="aa-product-title"><a
                                                         href="{{url('product/'.$productArr->product_slug)}}">{{$productArr->product_name}}</a>
@@ -738,18 +739,19 @@
                                                     width="250px" height="300px" alt="polo shirt img"></a>
                                             @endif
                                             <a class="aa-add-card-btn"
-                                                href="{{url('product/'.$productArr->product_slug)}}"><span
+                                                href="javascript:void(0)" 
+                                                onclick=home_add_to_cart('{{$productArr->id}}','{{$Home_Product_Attr[$productArr->id][0]->size}}','{{$Home_Product_Attr[$productArr->id][0]->color}}','{{$Home_Product_Attr[$productArr->id][0]->price}}')><span
                                                     class="fa fa-shopping-cart"></span>Add To Cart</a>
                                             <figcaption>
                                                 <h4 class="aa-product-title"><a
                                                         href="{{url('product/'.$productArr->product_slug)}}">{{$productArr->product_name}}</a>
                                                 </h4>
-                                                @if(isset($Discounted_Products[$productArr->id][0]))
+                                                @if(isset($Discounted_Products_Attr[$productArr->id][0]))
                                                 <span
-                                                    class="aa-product-price">Rs.{{$Discounted_Products[$productArr->id][0]->price}}
+                                                    class="aa-product-price">Rs.{{$Discounted_Products_Attr[$productArr->id][0]->price}}
                                                 </span>
                                                 <span class="aa-product-price"><del>Rs.
-                                                        {{$Discounted_Products[$productArr->id][0]->maximum_retail_price}}</del></span>
+                                                        {{$Discounted_Products_Attr[$productArr->id][0]->maximum_retail_price}}</del></span>
                                                 @else
                                                 <span class="aa-product-price">Rs. </span>
                                                 <span class="aa-product-price"><del>Rs. </del></span>

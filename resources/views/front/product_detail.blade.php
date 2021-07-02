@@ -124,7 +124,7 @@
                                         </p>
                                     </div>
                                     <div class="aa-prod-view-bottom">
-                                        <a class="aa-add-to-cart-btn" href="javascript:void(0)" onclick=add_to_cart('{{$product->id}}','{{$Product_Attr[$product->id][0]->size_id}}','{{$Product_Attr[$product->id][0]->color_id}}')>Add To Cart</a>
+                                        <a class="aa-add-to-cart-btn" href="javascript:void(0)" onclick=porduct_detail_add_to_cart('{{$product->id}}','{{$Product_Attr[$product->id][0]->size_id}}','{{$Product_Attr[$product->id][0]->color_id}}')>Add To Cart</a>
                                         <a class="aa-add-to-cart-btn" href="javascript:void(0)">Wishlist</a>
                                         <a class="aa-add-to-cart-btn" href="javascript:void(0)">Compare</a>
                                     </div>

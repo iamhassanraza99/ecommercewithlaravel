@@ -228,8 +228,8 @@ class FrontController extends Controller
         // prix($Arr['Cart']);
         return view('front.cart',$Arr);
     }
-    function removeFromCart(Request $request,$product_id){
-        DB::table('cart')->where(['product_id'=>$product_id])->delete();
+    function removeFromCart(Request $request,$product_attr_id){
+        DB::table('cart')->where(['product_attr_id'=>$product_attr_id])->delete();
         $request->session()->flash('cart-msg','Product has been removed!');
         return redirect('/cart');
     }

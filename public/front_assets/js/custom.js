@@ -371,16 +371,16 @@ function ShowProductsonColorSelection(img,color){
   $('#color_id').val(color);
   $('.simpleLens-big-image-container').html('<a data-lens-image="{{@asset('+'storage/media/products/'+img+')}}" class="simpleLens-lens-image"><img src="{{@asset('+'storage/media/products/'+img+')}}" width="250px" height="300px" class="simpleLens-big-image"></a>');
 }
-function home_add_to_cart(ProductId,size_id,color_id){
+function home_add_to_cart(ProductId,size_id,color_id,price){
   // alert($('#price').val());
   $('#product_id').val(ProductId);
   $('#size_id').val(size_id);
   $('#color_id').val(color_id);
   $('#product_qty').val($('#qty').val());
-  $('#product_price').val($('#price').val());
-  add_to_cart(ProductId,size_id,color_id);
+  $('#product_price').val(price);
+  add_to_cart();
 }
-function add_to_cart(ProductId,size_id,color_id){
+function porduct_detail_add_to_cart(ProductId,size_id,color_id){
   $('#product_id').val(ProductId);
   $('#product_qty').val($('#qty').val());
   $('#product_price').val($('#price').val());
@@ -399,17 +399,10 @@ function add_to_cart(ProductId,size_id,color_id){
     $('#add_to_cart_msg').html('<div class="alert alert-danger"><strong>Please!</strong> Please Select Color.</div>');
   }
   else{
-    $.ajax({
-      url: '/add_to_cart',
-      data: $('#AddtoCartForm').serialize(),
-      type: 'post',
-      success: function(result){
-        alert('Product '+result['msg']);
-      }
-    });
+    add_to_cart(ProductId,size_id,color_id);
   }
-  
 }
+
 function updateQty(pid,attr_id,size,color,price){
 $('#pid').val(pid);
 $('#attr_id').val(attr_id);
@@ -418,8 +411,19 @@ $('#color_id').val(color);
 var qty = $('#qty_'+attr_id).val();
 $('#pqty').val(qty);
 $('#p_price').val(price);
-add_to_cart(pid,size,color);
+add_to_cart();
 var total_price = qty*price;
-alert(total_price);
 $('#total_price_'+attr_id).html('Rs. '+total_price);
+}
+
+function add_to_cart(){
+ 
+  $.ajax({
+    url: '/add_to_cart',
+    data: $('#AddtoCartForm').serialize(),
+    type: 'post',
+    success: function(result){
+      alert('Product '+result['msg']);
+    }
+  });
 }
