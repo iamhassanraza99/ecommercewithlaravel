@@ -174,7 +174,7 @@
                                                 <a class="aa-product-img"
                                                     href="{{url('product/'.$productArr->product_slug)}}"><img
                                                         src="{{@asset('storage/media/products/'.$productArr->product_image)}}"
-                                                        width="250px" height="300px" alt="polo shirt img"></a>
+                                                        width="250px" height="300px" alt="$productArr->product_slug"></a>
                                                 @endif
                                                 <a class="aa-add-card-btn"
                                                     href="javascript:void(0)" onclick=home_add_to_cart('{{$productArr->id}}','{{$Home_Product_Attr[$productArr->id][0]->size}}','{{$Home_Product_Attr[$productArr->id][0]->color}}','{{$Home_Product_Attr[$productArr->id][0]->price}}')><span
@@ -184,7 +184,6 @@
                                                             href="{{url('product/'.$productArr->product_slug)}}">{{$productArr->product_name}}</a>
                                                     </h4>
                                                     @if(isset($Home_Product_Attr[$productArr->id][0]))
-                                                    <!-- <input type="hidden" id="price_{{$Home_Product_Attr[$productArr->id][0]->id}}" name="price" value="{{$Home_Product_Attr[$productArr->id][0]->price}}"> -->
                                                     <span
                                                         class="aa-product-price">Rs.{{$Home_Product_Attr[$productArr->id][0]->price}}
                                                     </span>
@@ -672,7 +671,7 @@
                                             @endif
                                             <a class="aa-add-card-btn"
                                                 href="javascript:void(0)" 
-                                                onclick=home_add_to_cart('{{$productArr->id}}','{{$Home_Product_Attr[$productArr->id][0]->size}}','{{$Home_Product_Attr[$productArr->id][0]->color}}','{{$Home_Product_Attr[$productArr->id][0]->price}}')>><span
+                                                onclick=home_add_to_cart('{{$productArr->id}}','{{$Home_Product_Attr[$productArr->id][0]->size}}','{{$Home_Product_Attr[$productArr->id][0]->color}}','{{$Home_Product_Attr[$productArr->id][0]->price}}')><span
                                                     class="fa fa-shopping-cart" ></span>Add To Cart</a>
                                             <figcaption>
                                                 <h4 class="aa-product-title"><a

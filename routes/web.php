@@ -28,6 +28,8 @@ use App\Http\Controllers\Admin\HomeBannerController;
 Route::get('/',[FrontController::class,'index']);
 Route::post('/login/auth',[FrontController::class,'Login']);
 Route::get('/logout',[FrontController::class,'logout']);
+Route::get('/category/{slug}',[FrontController::class,'category_product']);
+
 Route::get('/product/{product_slug}',[FrontController::class,'product_detail']);
 Route::post('/add_to_cart',[FrontController::class,'add_to_cart']);
 Route::get('/product_remove_from_cart/{product_attr_id}',[FrontController::class,'removeFromCart']);

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
         foreach($Arr as $row){
             $arr[$row->id]['name'] = $row->category_name;
             $arr[$row->id]['parent_id'] = $row->parent_category_id;
+            $arr[$row->id]['category_name'] = $row->category_slug;
         }
         // prix($arr);  
         $str=buildTreeView($arr,0);
@@ -40,7 +41,7 @@ use Illuminate\Support\Facades\DB;
                 // else{
                 //     $dropdownClass="";
                 // }
-                $html.='<li><a href="#">'.$data['name'].'<span class="caret"></span></a>';
+                $html.='<li><a href="/category/'.$data['category_name'].'">'.$data['name'].'<span class="caret"></span></a>';
                 if($level>$prelevel){
                     $prelevel=$level;
                 }

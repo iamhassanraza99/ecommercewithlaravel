@@ -404,16 +404,16 @@ function porduct_detail_add_to_cart(ProductId,size_id,color_id){
 }
 
 function updateQty(pid,attr_id,size,color,price){
-$('#pid').val(pid);
-$('#attr_id').val(attr_id);
-$('#size_id').val(size);
-$('#color_id').val(color);
-var qty = $('#qty_'+attr_id).val();
-$('#pqty').val(qty);
-$('#p_price').val(price);
-add_to_cart();
-var total_price = qty*price;
-$('#total_price_'+attr_id).html('Rs. '+total_price);
+  $('#pid').val(pid);
+  $('#attr_id').val(attr_id);
+  $('#size_id').val(size);
+  $('#color_id').val(color);
+  var qty = $('#qty_'+attr_id).val();
+  $('#pqty').val(qty);
+  $('#p_price').val(price);
+  add_to_cart();
+  var total_price = qty*price;
+  $('#total_price_'+attr_id).html('Rs. '+total_price);
 }
 
 function add_to_cart(){
