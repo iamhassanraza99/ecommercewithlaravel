@@ -246,28 +246,69 @@ class FrontController extends Controller
     }
     
     function category_product(Request $request, $slug){
+        $sort = '';
+        $sort_txt = '';
+        $sort_price_min = '';
+        $sort_price_max = '';
+        $color_filter = '';
+        $FilterArr = [];
+        if($request->get('sort') != null){
+            $sort = $request->get('sort');
+        }
+         $query= DB::table('products');
+         $query=$query->select("products.*");
+         $query=$query->leftjoin('categories','categories.id','=','products.category_id');
+         $query=$query->leftjoin('products_attr','products_attr.product_id','=','products.id');
+         $query=$query->where(['categories.category_slug'=>$slug]);
+        if($sort == 'name'){
+            $query = $query->orderby('product_name','asc'); 
+            $sort_txt = "Name";
+        }
+        if($sort == 'date'){
+           $query = $query->orderby('id','desc'); 
+           $sort_txt = "Date";
+        }
+        if($sort == 'price_asc'){
+            $query = $query->orderby('products_attr.price','asc'); 
+            $sort_txt = "Price - Asc";
+        }
+        if($sort == 'price_desc'){
+            $query = $query->orderby('products_attr.price','desc'); 
+            $sort_txt = "Price - DESC";
+        }
+        
+        if($request->get('sort_price_min') != null && $request->get('sort_price_max') != null){
+            $sort_price_min = $request->get('sort_price_min');
+            $sort_price_max = $request->get('sort_price_max');
+
+            if($sort_price_min > 0 && $sort_price_max > 0){
+                $query=$query->whereBetween('products_attr.price',[$sort_price_min,$sort_price_max]);
+            }
+        }
+
+        if($request->get('color_filter') != null){
+            $color_filter = $request->get('color_filter');
+            $FilterArr = explode(":",$color_filter);
+            $query=$query->where(['products_attr.color_id'=>$color_filter]);
+        }
+         $query=$query->distinct()->get();
+         $Arr['Products'] = $query;
+        //  prix($Arr['Products']);
+
+        foreach($Arr['Products'] as $list){
+                
+            $Arr['Product_Attr'][$list->id] = DB::table('products_attr')
+            ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
+            ->leftjoin('colors','colors.id','=','products_attr.color_id')
+            ->where(['product_id'=>$list->id])
+            ->get();
+        }
         
         $Arr['Category'] = DB::table('categories')
         ->where(['status'=>'1'])
         ->where(['category_slug'=>$slug])
         ->where(['showOnFrontend'=>'1'])
         ->get();
-        
-        foreach($Arr['Category'] as $list){
-            $Arr['Products'][$list->id] = DB::table('products')
-            ->where(['category_id'=>$list->id])
-            ->where(['status'=>'1'])
-            ->get();
-            
-            foreach($Arr['Products'][$list->id] as $list1){
-                
-                $Arr['Product_Attr'][$list1->id] = DB::table('products_attr')
-                ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
-                ->leftjoin('colors','colors.id','=','products_attr.color_id')
-                ->where(['product_id'=>$list1->id])
-                ->get();
-            }
-        }
         
         $Arr['AllCategories'] = DB::table('categories')
         ->where(['status'=>'1'])
@@ -278,39 +319,15 @@ class FrontController extends Controller
         ->where(['status'=>'1'])
         ->get();
         // prix($Arr['AllCategories']);
+        $Arr['slug'] = $slug;
+        $Arr['sort'] = $sort;
+        $Arr['sort_txt'] = $sort_txt;
+        $Arr['filter_price_min'] = $sort_price_min;
+        $Arr['filter_price_max'] = $sort_price_max;
+        $Arr['color_filter'] = $color_filter;
+        $Arr['ColorFilterArr'] = $FilterArr;
+        // prix($Arr);
         return view('front.categoryproduct',$Arr);
     }
-    function ProductOncolorBase(Request $request,$color,$category){
-       
-        $Arr['Category'] = DB::table('categories')
-        ->where(['status'=>'1'])
-        ->where(['showOnFrontend'=>'1'])
-        ->where(['category_name'=>$category])
-        ->get();
-        
-        $Arr['colors'] = DB::table('colors')
-        ->where(['status'=>'1'])
-        ->where(['color'=>$color])
-        ->get();
-
-        $color_id = $Arr['colors'][0]->id;
-        
-        foreach($Arr['Category'] as $list){
-            $Arr['Category_Products'][$list->id] = DB::table('products')
-            ->where(['category_id'=>$list->id])
-            ->where(['status'=>'1'])
-            ->get();
-            
-            foreach($Arr['Category_Products'][$list->id] as $list1){
-                
-                $Arr['Category_Product_Attr'][$list1->id] = DB::table('products_attr')
-                ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
-                ->leftjoin('colors','colors.id','=','products_attr.color_id')
-                ->where(['product_id'=>$list1->id])
-                ->where(['color_id'=>$color_id])
-                ->get();
-            }
-        }
-        return view('front.categoryproduct',$Arr);
-    }
+   
 }

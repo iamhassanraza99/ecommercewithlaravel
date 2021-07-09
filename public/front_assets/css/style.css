@@ -4187,3 +4187,9 @@ img {
 .mt-10{
   margin-top:10px;
 }
+.activeclass{
+  border:2px solid pink;
+}
+.cat_active{
+  color: #ff6666;
+}

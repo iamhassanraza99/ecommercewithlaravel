@@ -240,23 +240,30 @@ jQuery(function($){
     jQuery(function(){
       if($('body').is('.productPage')){
        var skipSlider = document.getElementById('skipstep');
+       var filter_price_min = $('#sort_price_min').val();
+       var filter_price_max = $('#sort_price_max').val();
+       
+       if(filter_price_min == '' || filter_price_max == ''){
+        filter_price_min = 100;
+        filter_price_max = 2400;
+       }
         noUiSlider.create(skipSlider, {
             range: {
                 'min': 0,
-                '10%': 10,
-                '20%': 20,
-                '30%': 30,
-                '40%': 40,
-                '50%': 50,
-                '60%': 60,
-                '70%': 70,
-                '80%': 80,
-                '90%': 90,
-                'max': 100
+                '10%': 100,
+                '20%': 300,
+                '30%': 600,
+                '40%': 900,
+                '50%': 1200,
+                '60%': 1500,
+                '70%': 1800,
+                '80%': 2100,
+                '90%': 2400,
+                'max': 2700
             },
             snap: true,
             connect: true,
-            start: [20, 70]
+            start: [filter_price_min, filter_price_max]
         });
         // for value print
         var skipValues = [
@@ -365,7 +372,6 @@ function ShowColoronSizeSelection(size){
   $('.size_'+size).show();
   $('.product_color_hide').css('border','1px solid #ddd');
   $('.size_'+size).css('border','1px solid black');
-
 }
 function ShowProductsonColorSelection(img,color){
   $('#color_id').val(color);
@@ -442,4 +448,38 @@ function add_to_cart(){
       }
     }
   });
+}
+function sort_by(){
+  var sort_by_value = $('#sort_by_value').val();
+  $('#sort').val(sort_by_value);
+  $('#CategoryFilter').submit();
+}
+
+function sort_by_price_filter(){
+  var start = $('#skip-value-lower').html();
+  var end = $('#skip-value-upper').html();
+  $('#sort_price_min').val(start);
+  $('#sort_price_max').val(end);
+  $('#CategoryFilter').submit();
+
+}
+
+function sort_by_color(color_id, type){
+  var colorFilter = $('#color_filter').val();
+
+  if(colorFilter == ''){
+    $('#color_filter').val(color_id);
+  }
+  else{
+    if(type == 0){
+      $('#color_filter').val(color_id+':'+colorFilter);
+    }
+   else{
+     var color_str= colorFilter.replace(color_id+':','');
+    $('#color_filter').val(color_str);
+    
+   }
+  }
+  $('#CategoryFilter').submit();
+  
 }

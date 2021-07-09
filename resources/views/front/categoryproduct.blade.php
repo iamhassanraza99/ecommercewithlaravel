@@ -1,5 +1,5 @@
 @extends('front/layout/layout')
-@section('page_title','Product')
+@section('page_title','Products')
 @section('container')
 <!-- catg header banner section -->
 <section id="aa-catg-head-banner">
@@ -32,21 +32,25 @@
                         <div class="aa-product-catg-head-left">
                             <form action="" class="aa-sort-form">
                                 <label for="">Sort by</label>
-                                <select name="">
-                                    <option value="1" selected="Default">Default</option>
-                                    <option value="2">Name</option>
-                                    <option value="3">Price</option>
-                                    <option value="4">Date</option>
+                                <select name="" onchange="sort_by()" id="sort_by_value">
+                                    <option value="0" selected="Default">Default</option>
+                                    <option value="name">Name</option>
+                                    <option value="price_asc">Price Asc</option>
+                                    <option value="price_desc">Price Desc</option>
+                                    <option value="date">Date</option>
                                 </select>
                             </form>
-                            <form action="" class="aa-show-form">
+                            <div class="aa-show-form">
+                                {{$sort_txt}}
+                            </div>
+                            <!-- <form action="" class="aa-show-form">
                                 <label for="">Show</label>
                                 <select name="">
                                     <option value="1" selected="12">12</option>
                                     <option value="2">24</option>
                                     <option value="3">36</option>
                                 </select>
-                            </form>
+                            </form> -->
                         </div>
                         <div class="aa-product-catg-head-right">
                             <a id="grid-catg" href="#"><span class="fa fa-th"></span></a>
@@ -55,9 +59,10 @@
                     </div>
                     <div class="aa-product-catg-body">
                         <ul class="aa-product-catg">
+                           
                             <!-- start single product item -->
                             @if(isset($Products[0]))
-                           
+                               
                             @foreach($Products as $product)
                             <li>
                                 <figure>
@@ -194,7 +199,7 @@
                         </div>
                         <!-- / quick view modal -->
                     </div>
-                    <div class="aa-product-catg-pagination">
+                    <!-- <div class="aa-product-catg-pagination">
                         <nav>
                             <ul class="pagination">
                                 <li>
@@ -214,7 +219,7 @@
                                 </li>
                             </ul>
                         </nav>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-md-pull-9">
@@ -223,9 +228,12 @@
                     <div class="aa-sidebar-widget">
                         <h3>Category</h3>
                         <ul class="aa-catg-nav">
-                       
                             @foreach($AllCategories as $cat)
-                            <li><a href="{{url('/category/'.$cat->category_name)}}">{{$cat->category_name}}</a></li>
+                            @if($slug == $cat->category_slug)
+                            <li><a href="{{url('/category/'.$cat->category_slug)}}" class="cat_active">{{$cat->category_name}}</a></li>
+                            @else
+                            <li><a href="{{url('/category/'.$cat->category_slug)}}">{{$cat->category_name}}</a></li>
+                            @endif
                             @endforeach
                         </ul>
                     </div>
@@ -250,9 +258,9 @@
                             <form action="">
                                 <div id="skipstep" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
                                 </div>
-                                <span id="skip-value-lower" class="example-val">30.00</span>
-                                <span id="skip-value-upper" class="example-val">100.00</span>
-                                <button class="aa-filter-btn" type="submit">Filter</button>
+                                <span id="skip-value-lower" class="example-val"></span>
+                                <span id="skip-value-upper" class="example-val"></span>
+                                <button class="aa-filter-btn" type="button" onclick="sort_by_price_filter()">Filter</button>
                             </form>
                         </div>
 
@@ -262,12 +270,16 @@
                         <h3>Shop By Color</h3>
                         <div class="aa-color-tag">
                           @foreach($Colors as $color)
-                            <a class="aa-color-{{strtolower($color->color)}}" href="{{url('category/'.$color->color)}}"></a>
+                          @if(in_array($color->id,$ColorFilterArr))
+                            <a class="aa-color-{{strtolower($color->color)}} activeclass" href="javascript:void(0)" onclick="sort_by_color('{{$color->id}}','1')"></a>
+                          @else
+                            <a class="aa-color-{{strtolower($color->color)}}" href="javascript:void(0)" onclick="sort_by_color('{{$color->id}}','0')"></a>
+                          @endif
                           @endforeach
                         </div>
                     </div>
                     <!-- single sidebar -->
-                    <div class="aa-sidebar-widget">
+                    <!-- <div class="aa-sidebar-widget">
                         <h3>Recently Views</h3>
                         <div class="aa-recently-views">
                             <ul>
@@ -294,9 +306,9 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- single sidebar -->
-                    <div class="aa-sidebar-widget">
+                    <!-- <div class="aa-sidebar-widget">
                         <h3>Top Rated Products</h3>
                         <div class="aa-recently-views">
                             <ul>
@@ -323,7 +335,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </aside>
             </div>
 
@@ -339,5 +351,12 @@
 <input type="hidden" id="color_id" name="color_id">
 <input type="hidden" id="product_qty" name="product_qty">
 <input type="hidden" id="product_price" name="product_price">
+</form>
+
+<form id="CategoryFilter">
+<input type="hidden" id="sort" name="sort" value="{{$sort}}">
+<input type="hidden" id="sort_price_min" name="sort_price_min" value={{$filter_price_min}}>
+<input type="hidden" id="sort_price_max" name="sort_price_max" value={{$filter_price_max}}>
+<input type="hidden" id="color_filter" name="color_filter" value="{{$color_filter}}">
 </form>
 @endsection
