@@ -330,4 +330,27 @@ class FrontController extends Controller
         return view('front.categoryproduct',$Arr);
     }
    
+    public function search(Request $request,$str){
+        
+        $Arr['Products'] = DB::table('products')
+        ->select('products.*')
+        ->leftjoin('categories','categories.id','=','products.category_id')
+        ->where(['products.status'=>'1'])
+        ->where('products.product_name','like',"%$str%")
+        ->orwhere('products.short_desc','like',"%$str%")
+        ->orwhere('products.long_desc','like',"%$str%")
+        ->orwhere('products.keywords','like',"%$str%")
+        ->orwhere('products.technical_specifications','like',"%$str%")
+        ->orwhere('products.uses','like',"%$str%")
+        ->get();
+        foreach($Arr['Products'] as $list){
+                
+            $Arr['Product_Attr'][$list->id] = DB::table('products_attr')
+            ->leftjoin('sizes','sizes.id','=','products_attr.size_id')
+            ->leftjoin('colors','colors.id','=','products_attr.color_id')
+            ->where(['product_id'=>$list->id])
+            ->get();
+        }
+        return view('front.search',$Arr);
+    }
 }

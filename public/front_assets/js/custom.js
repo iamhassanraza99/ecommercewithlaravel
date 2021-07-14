@@ -367,14 +367,16 @@ jQuery(function($){
 function ShowColoronSizeSelection(size){
   // alert(size);
   $('#size_id').val(size);
-
   $('.product_color_hide').hide();
-  $('.size_'+size).show();
-  $('.product_color_hide').css('border','1px solid #ddd');
-  $('.size_'+size).css('border','1px solid black');
+  $('.color_of_'+size).show();
+  // $('.product_color_hide').css('border','1px solid #ddd');
+  $('.size').css('border','1px solid #ddd');
+  $('#size_'+size).css('border','1px solid black');
 }
 function ShowProductsonColorSelection(img,color){
   $('#color_id').val(color);
+  $('.color').css('border','1px solid #ddd');
+  $('#color_'+color).css('border','2px solid red');
   $('.simpleLens-big-image-container').html('<a data-lens-image="{{@asset('+'storage/media/products/'+img+')}}" class="simpleLens-lens-image"><img src="{{@asset('+'storage/media/products/'+img+')}}" width="250px" height="300px" class="simpleLens-big-image"></a>');
 }
 function home_add_to_cart(ProductId,size_id,color_id,price){
@@ -482,4 +484,11 @@ function sort_by_color(color_id, type){
   }
   $('#CategoryFilter').submit();
   
+}
+
+function searchForm(){
+  var str = $('#str').val();
+  if(str != '' && str.length > 2){
+    window.location.href= '/search/'+str;
+  }
 }

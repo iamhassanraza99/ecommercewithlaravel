@@ -96,7 +96,7 @@
                                     @endphp
                                         @foreach($arrSize as $attr)
                                         @if($attr != "")
-                                        <a href="javascript:void(0)" id="size" class="size_{{$attr}}" onclick=ShowColoronSizeSelection('{{$attr}}')>{{$attr}}</a>
+                                        <a href="javascript:void(0)" id="size_{{$attr}}" class="size" onclick=ShowColoronSizeSelection('{{$attr}}')>{{$attr}}</a>
                                         @endif
                                         @endforeach
                                     </div>
@@ -106,7 +106,7 @@
                                     <div class="aa-color-tag">
                                         @foreach($Product_Attr[$product->id] as $attr)
                                         @if($attr->color != "")
-                                        <a href="javascript:void(0)" id="color" onclick=ShowProductsonColorSelection('{{$attr->image}}','{{$attr->color}}') class="aa-color-{{strtolower($attr->color)}} size_{{$attr->size}} product_color_hide"></a>
+                                        <a href="javascript:void(0)" id="color_{{$attr->color}}" onclick=ShowProductsonColorSelection('{{$attr->image}}','{{$attr->color}}','{{$attr->size}}') class="aa-color-{{strtolower($attr->color)}} color_of_{{$attr->size}} color product_color_hide" ></a>
                                         @endif
                                         @endforeach
                                     </div>
